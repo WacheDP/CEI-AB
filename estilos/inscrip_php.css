@@ -1,0 +1,31 @@
+.clases.clases1 {
+    background-color: rgb(127, 255, 212);
+    border-bottom: 5px outset rgb(127, 255, 212);
+    border-left: 4px outset rgb(127, 255, 212);
+    border-right: 4px outset rgb(127, 255, 212);
+    border-top: 5px outset rgb(127, 255, 212);
+}
+
+.clases.clases2 {
+    background-color: blue;
+    border-bottom: 5px outset blue;
+    border-left: 4px outset blue;
+    border-right: 4px outset blue;
+    border-top: 5px outset blue;
+}
+
+.clases.clases3 {
+    background-color: lightgreen;
+    border-bottom: 5px outset lightgreen;
+    border-left: 4px outset lightgreen;
+    border-right: 4px outset lightgreen;
+    border-top: 5px outset lightgreen;
+}
+
+.clases.clases4 {
+    background-color: red;
+    border-bottom: 5px outset red;
+    border-left: 4px outset red;
+    border-right: 4px outset red;
+    border-top: 5px outset red;
+}

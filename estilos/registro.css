@@ -1,0 +1,313 @@
+* {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    box-sizing: border-box;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+main {
+    width: 100%;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('../recursos/img/entredapreescolar.jpg');
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    height: 1400px;
+}
+
+#caja-trasera {
+    width: 95%;
+    height: auto;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    background-image: linear-gradient(rgba(48, 185, 196, 0.5), rgba(48, 185, 196, 0.5));
+    backdrop-filter: blur(5px);
+    border: 3px solid rgb(48, 185, 196);
+    border-radius: 15px;
+    position: absolute;
+    top: 25%;
+    left: 50%;
+    transform: translateX(-50%);
+    box-shadow: 5px 5px 10px rgba(255, 255, 255, 0.3);
+}
+
+#formulario-representante,
+#formulario-personal {
+    display: block;
+    width: 60%;
+    height: auto;
+    margin: 30px 6%;
+    transition: opacity 1s ease-in;
+}
+
+#formulario-personal {
+    opacity: 1;
+}
+
+#formulario-representante {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.partes {
+    margin-bottom: 10px;
+    width: 100%;
+    height: auto;
+}
+
+form h4 {
+    text-align: center;
+    font-size: 7mm;
+    margin-bottom: 10px;
+    transition: color 0.3s ease-in-out;
+}
+
+form label {
+    margin-left: 10px;
+    font-weight: 600;
+}
+
+form input,
+form textarea {
+    font-weight: 500;
+    transition: background-color 0.5s ease-out, color 0.5s ease-out, box-shadow 0.5s ease-out;
+}
+
+form label,
+form input,
+form textarea {
+    font-size: 4mm;
+    margin-bottom: 2px;
+}
+
+form textarea {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    min-width: 450px;
+    max-width: 450px;
+    min-height: 100px;
+    max-height: 100px;
+}
+
+form input,
+form textarea {
+    background-color: white;
+    color: black;
+    border: 1px solid white;
+    outline: none;
+    border-radius: 5px;
+    width: 65%;
+}
+
+input::placeholder,
+textarea::placeholder {
+    color: black;
+    transition: color 0.5s ease-out;
+}
+
+select {
+    border: 1px solid white;
+    border-radius: 5px;
+    font-size: 4mm;
+    font-weight: 500;
+    padding: 10px;
+    transition: background-color 0.5s ease-out, color 0.5s ease-out, box-shadow 0.5s ease-out;
+}
+
+select:focus {
+    outline: none;
+    box-shadow: 0 0 10px white;
+}
+
+.null {
+    background-color: rgba(0, 255, 0, 0.3);
+    backdrop-filter: blur(5px);
+}
+
+.null:focus {
+    color: white;
+    background-color: rgba(10, 112, 10, 0.7);
+    border: 1px solid white;
+    box-shadow: 0 0 10px white;
+}
+
+.null:focus::placeholder {
+    color: white;
+}
+
+.no-null {
+    background-color: rgba(255, 0, 0, 0.3);
+    backdrop-filter: blur(5px);
+}
+
+.no-null:focus {
+    color: white;
+    background-color: rgba(172, 12, 12, 0.6);
+    border: 1px solid white;
+    box-shadow: 0 0 10px white;
+}
+
+.no-null:focus::placeholder {
+    color: white;
+}
+
+.validacion {
+    display: block;
+    background-color: red;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 65%;
+    height: auto;
+    border: 2px solid black;
+    border-radius: 15px;
+}
+
+.validacion p {
+    text-align: center;
+    color: white;
+    font-size: 4mm;
+    font-weight: 600;
+}
+
+.registro-btn {
+    display: block;
+    margin-top: 30px;
+    margin-left: auto;
+    margin-right: auto;
+    width: auto;
+    padding: 5px;
+    background-color: rgb(0, 83, 224);
+    cursor: pointer;
+    transition: background-color 0.3s ease-out, color 0.3s ease-out;
+}
+
+.registro-btn:hover {
+    color: white;
+    background-color: rgb(0, 55, 145);
+}
+
+.registro-btn:active {
+    transform: scale(0.9);
+}
+
+#caja-delantera {
+    width: auto;
+    height: auto;
+    display: block;
+    justify-content: center;
+    background-image: linear-gradient(rgba(54, 173, 101, 0.5), rgba(54, 173, 101, 0.5));
+    border-radius: 5%;
+    border: 3px solid rgb(54, 173, 101);
+    position: absolute;
+    padding: 10px;
+    top: 85%;
+    left: 10%;
+    transition: left 2s ease-in-out;
+}
+
+#caja-delantera h1 {
+    padding-bottom: 10px;
+    text-align: center;
+}
+
+#idperso {
+    display: block;
+}
+
+#idrepre {
+    display: none;
+}
+
+#aviso {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    height: auto;
+}
+
+#aviso div {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+#aviso div p {
+    font-size: 4mm;
+    font-weight: 800;
+}
+
+#cuadro-no-null {
+    border: 2px solid black;
+    width: 15px;
+    height: 15px;
+    background-color: rgba(255, 0, 0, 0.3);
+}
+
+#cuadro-null {
+    border: 2px solid black;
+    width: 15px;
+    height: 15px;
+    background-color: rgba(0, 255, 0, 0.3);
+}
+
+.img-clase {
+    display: block;
+    margin-top: 15px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 350px;
+    height: auto;
+    border: 2px solid black;
+    border-radius: 5%;
+}
+
+.boton-clase {
+    display: block;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    width: auto;
+    height: auto;
+}
+
+.boton-clase h4 {
+    text-align: center;
+    font-size: 4mm;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.boton-clase button {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: auto;
+    height: auto;
+    padding: 10px;
+    border: 2px solid white;
+    border-radius: 10px;
+    background-color: rgb(0, 83, 224);
+    cursor: pointer;
+    transition: background-color 0.3s ease-out, color 0.3s ease-out;
+}
+
+.boton-clase button:hover {
+    color: white;
+    background-color: rgb(0, 55, 145);
+}
+
+.boton-clase button:active {
+    transform: scale(0.9);
+}
+
+#img-representante,
+#representante-btn {
+    display: none;
+}

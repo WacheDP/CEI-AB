@@ -1,0 +1,406 @@
+* {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    box-sizing: border-box;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+#registro {
+    width: 100%;
+    height: auto;
+    background-color: rgb(48, 185, 196);
+    border-right: 4px outset rgb(48, 185, 196);
+    border-bottom: 5px outset rgb(48, 185, 196);
+}
+
+#registro h1 {
+    text-align: center;
+    display: block;
+    padding-top: 30px;
+    margin-bottom: 20px;
+    font-size: 7mm;
+    font-weight: 800;
+}
+
+form {
+    width: 95%;
+    height: auto;
+    display: block;
+}
+
+.columnas {
+    width: 100%;
+    margin-left: 50px;
+    display: flex;
+    justify-content: center;
+    gap: 10%;
+}
+
+.partes {
+    width: 100%;
+    height: auto;
+    margin-bottom: 20px;
+}
+
+form h4 {
+    text-align: center;
+    font-size: 6mm;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+form label {
+    font-size: 4mm;
+    font-weight: 600;
+}
+
+input[type="text"],
+input[type="date"],
+input[type="number"] {
+    outline: none;
+    border-radius: 5px;
+    font-weight: 500;
+    font-size: 4mm;
+    margin-bottom: 4px;
+}
+
+form input[type="text"] {
+    width: 27%;
+    height: auto;
+}
+
+form input[type="number"] {
+    width: 10%;
+    height: auto;
+}
+
+form input[type="checkbox"] {
+    appearance: none;
+}
+
+input[type="checkbox"]+label::before {
+    border: 2px solid black;
+    border-radius: 5px;
+    color: transparent;
+    content: "\2713";
+    cursor: pointer;
+    display: inline-block;
+    height: 16px;
+    line-height: 16px;
+    margin-right: 5px;
+    text-align: center;
+    transition: background-color 0.2s linear, border-color 0.2s linear, color 0.2s linear;
+    width: 16px;
+}
+
+input[type="checkbox"]:checked+label::before {
+    background-color: gold;
+    border-color: gold;
+    color: goldenrod;
+}
+
+input[type="radio"] {
+    appearance: none;
+}
+
+input[type="radio"]+label::before {
+    border: 2px solid black;
+    border-radius: 100%;
+    content: "";
+    cursor: pointer;
+    display: inline-flex;
+    height: 10px;
+    margin-right: 5px;
+    width: 10px;
+    transition: background-color 0.3s ease-out;
+}
+
+input[type="radio"]:checked+label::before {
+    background-color: gold;
+}
+
+form textarea {
+    display: block;
+    border-radius: 10px;
+    font-size: 4mm;
+    font-weight: 500;
+    margin-bottom: 4px;
+    margin-left: auto;
+    margin-right: auto;
+    min-width: 550px;
+    max-width: 550px;
+    min-height: 50px;
+    max-height: 50px;
+    transition: background-color 0.3s ease-out;
+}
+
+input[type="text"],
+input[type="date"],
+input[type="number"],
+form textarea {
+    color: black;
+    border: 1px solid white;
+    padding-left: 5px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+}
+
+input::placeholder,
+textarea::placeholder {
+    color: black;
+}
+
+input[type="file"] {
+    background-color: rgba(0, 255, 0, 0.3);
+    border: 1px solid white;
+    border-radius: 5px;
+    font-size: 4mm;
+    font-weight: 600;
+    padding: 5px;
+}
+
+select {
+    outline: none;
+    border: 1px solid white;
+    border-radius: 5px;
+    font-size: 4mm;
+    font-weight: 500;
+    padding: 10px;
+    margin-bottom: 4px;
+    transition: background-color 0.3s ease-out;
+}
+
+.null {
+    background-color: rgba(0, 255, 0, 0.3);
+    backdrop-filter: blur(5px);
+    transition: all 0.3s ease-out;
+}
+
+.null::placeholder {
+    transition: color 0.3s ease-out;
+}
+
+.null:focus {
+    background-color: rgba(10, 112, 10, 0.7);
+    border: 1px solid white;
+    box-shadow: 0 0 10px white;
+    color: white;
+}
+
+.null:focus::placeholder {
+    color: white;
+}
+
+.no-null {
+    background-color: rgba(255, 0, 0, 0.3);
+    backdrop-filter: blur(5px);
+    transition: all 0.3s ease-out;
+}
+
+.no-null::placeholder {
+    transition: color 0.3s ease-out;
+}
+
+.no-null:focus {
+    color: white;
+    background-color: rgba(172, 12, 12, 0.6);
+    border: 1px solid white;
+    box-shadow: 0 0 10px white;
+}
+
+.no-null:focus::placeholder {
+    color: white;
+}
+
+.validacion {
+    display: block;
+    background-color: red;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 65%;
+    height: auto;
+    border: 2px solid black;
+    border-radius: 15px;
+}
+
+.validacion p {
+    text-align: center;
+    color: white;
+    font-size: 4mm;
+    font-weight: 600;
+}
+
+#registro-btn {
+    display: block;
+    font-size: 4.5mm;
+    font-weight: 700;
+    border-radius: 5px;
+    border: 2px solid white;
+    margin: 30px auto;
+    width: auto;
+    padding: 5px;
+    background-color: rgb(0, 83, 224);
+    cursor: pointer;
+    transition: background-color 0.2s ease-out, color 0.2s ease-out;
+}
+
+#registro-btn:hover {
+    background-color: rgb(0, 55, 145);
+    color: white;
+}
+
+#registro-btn:active {
+    transform: scale(0.9);
+}
+
+.p {
+    background-color: rgba(0, 88, 224, 0.5);
+    border: 2px solid white;
+    border-radius: 10px;
+    display: block;
+    height: auto;
+    margin: 5px auto;
+    width: 90%;
+    padding: 5px 4px;
+}
+
+.p p {
+    font-size: 3.5mm;
+    font-weight: 600;
+    text-align: center;
+}
+
+#aviso {
+    background-color: rgba(0, 88, 224, 0.5);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 35%;
+    height: auto;
+    margin-bottom: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 15px;
+    border: 1px solid white;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+#aviso div {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+#aviso div p {
+    font-size: 4mm;
+    font-weight: 800;
+}
+
+#cuadro-no-null {
+    border: 2px solid black;
+    width: 15px;
+    height: 15px;
+    background-color: rgba(255, 0, 0, 0.3);
+}
+
+#cuadro-null {
+    border: 2px solid black;
+    width: 15px;
+    height: 15px;
+    background-color: rgba(0, 255, 0, 0.3);
+}
+
+#tus-niños #niños {
+    display: grid;
+    gap: 20px;
+    grid-template-columns: repeat(4, 1fr);
+    margin-left: auto;
+    margin-right: auto;
+    padding: 20px;
+}
+
+#tus-niños h1 {
+    font-size: 8mm;
+    font-weight: 500;
+    margin-top: 20px;
+    text-align: center;
+}
+
+.niño,
+.niña {
+    align-items: center;
+    backdrop-filter: blur(10px);
+    background-color: rgba(74, 189, 209, 0.6);
+    border: 2px solid black;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+}
+
+.niña {
+    background-color: rgba(255, 152, 221, 0.6);
+}
+
+.niño img,
+.niña img {
+    border: 2px solid black;
+    border-radius: 15px;
+    height: auto;
+    margin-bottom: 10px;
+    width: 90%;
+}
+
+.niño h6,
+.niña h6 {
+    font-size: 3.5mm;
+    font-weight: 700;
+    margin-bottom: 3px;
+}
+
+.niño div,
+.niña div {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.niño div a,
+.niña div a {
+    border: 2px solid white;
+    border-radius: 5px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3), -2px -2px 5px rgba(255, 255, 255, 0.2);
+    color: white;
+    padding: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s ease-out, color 0.3s ease-out;
+}
+
+.niño div a:active,
+.niña div a:active {
+    transform: scale(0.9);
+}
+
+.niño .ver:hover {
+    background-color: rgb(59, 166, 185);
+}
+
+.niño .editar:hover {
+    background-color: rgb(59, 166, 185);
+}
+
+.niña .ver:hover {
+    background-color: rgb(195, 100, 165);
+}
+
+.niña .editar:hover {
+    background-color: rgb(195, 100, 165);
+}
+
+.borrar:hover {
+    background-color: rgba(247, 35, 35, 0.9);
+}

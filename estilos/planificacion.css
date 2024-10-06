@@ -1,0 +1,507 @@
+* {
+    margin: 0;
+    border: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+#escolaryear {
+    background-color: rgb(48, 185, 196);
+    border-bottom: 5px outset rgb(48, 185, 196);
+    border-left: 4px outset rgb(48, 185, 196);
+    border-right: 4px outset rgb(48, 185, 196);
+    border-top: 5px outset rgb(48, 185, 196);
+    height: auto;
+    padding: 20px;
+    width: 100%;
+}
+
+#escolaryear h1 {
+    font-size: 6.5mm;
+    font-weight: 800;
+    padding-bottom: 15px;
+    text-align: center;
+}
+
+#escolaryear form {
+    display: block;
+}
+
+#escolaryear form input[type="submit"] {
+    background-color: blue;
+    border: 2px solid whitesmoke;
+    border-radius: 5px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3), -2px -2px 5px rgba(255, 255, 255, 0.2);
+    color: white;
+    cursor: pointer;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 25px;
+    padding: 3px 10px;
+    transition: background-color 0.3s ease-out;
+}
+
+#escolaryear form input[type="submit"]:hover {
+    background-color: rgb(0, 0, 180);
+}
+
+#escolaryear form input[type="submit"]:active {
+    transform: scale(0.9);
+}
+
+.validacion {
+    display: block;
+    background-color: red;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 65%;
+    height: auto;
+    border: 2px solid black;
+    border-radius: 15px;
+}
+
+.validacion p {
+    text-align: center;
+    color: white;
+    font-size: 4mm;
+    font-weight: 600;
+}
+
+form .inputs {
+    display: flex;
+    gap: 30%;
+    margin-left: 15%;
+    margin-right: 15%;
+}
+
+.inputs label {
+    font-size: 5mm;
+    font-weight: 600;
+    margin-right: 10px;
+}
+
+.inputs input {
+    background-color: rgba(128, 128, 128, 0.4);
+    backdrop-filter: blur(20px);
+    border: 2px solid white;
+    border-radius: 10px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3), -2px -2px 5px rgba(255, 255, 255, 0.2);
+    color: rgb(53, 53, 53);
+    padding-left: 5px;
+    padding-right: 5px;
+    transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+}
+
+.inputs input:focus {
+    background-color: rgb(128, 128, 128);
+    color: whitesmoke;
+}
+
+#cronograma {
+    background-color: rgb(54, 173, 101);
+    border-bottom: 5px outset rgb(54, 173, 101);
+    border-left: 4px outset rgb(54, 173, 101);
+    border-right: 4px outset rgb(54, 173, 101);
+    border-top: 5px outset rgb(54, 173, 101);
+    height: auto;
+    padding: 20px;
+    width: 100%;
+}
+
+#cronograma h1 {
+    font-size: 6.5mm;
+    font-weight: 800;
+    padding-bottom: 15px;
+    text-align: center;
+}
+
+#cronograma form {
+    display: block;
+}
+
+#cronograma form input[type="submit"] {
+    background-color: blue;
+    border: 2px solid whitesmoke;
+    border-radius: 5px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3), -2px -2px 5px rgba(255, 255, 255, 0.2);
+    color: white;
+    cursor: pointer;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 25px;
+    padding: 3px 10px;
+    transition: background-color 0.3s ease-out;
+}
+
+#cronograma form input[type="submit"]:hover {
+    background-color: rgb(0, 0, 180);
+}
+
+#cronograma form input[type="submit"]:active {
+    transform: scale(0.9);
+}
+
+.contenedor-form {
+    margin-bottom: 15px;
+}
+
+.actividades {
+    display: flex;
+    gap: 30%;
+    margin-left: 20%;
+    margin-right: 20%;
+}
+
+form label {
+    font-size: 4.5mm;
+    font-weight: 600;
+    margin-right: 10px;
+}
+
+form input[type="date"],
+form select,
+textarea {
+    background-color: rgba(128, 128, 128, 0.4);
+    backdrop-filter: blur(20px);
+    border: 2px solid white;
+    border-radius: 10px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3), -2px -2px 5px rgba(255, 255, 255, 0.2);
+    color: rgb(53, 53, 53);
+    padding-left: 5px;
+    padding-right: 5px;
+    transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+}
+
+textarea::placeholder {
+    color: rgb(53, 53, 53);
+}
+
+form input[type="date"]:focus,
+form select:focus,
+textarea:focus {
+    background-color: rgb(128, 128, 128);
+    color: whitesmoke;
+}
+
+textarea {
+    margin-left: 30px;
+    max-height: 50px;
+    max-width: 300px;
+    min-height: 50px;
+    min-width: 300px;
+}
+
+.tiempos {
+    display: block;
+    margin-bottom: 10px;
+    margin-left: 38%;
+    margin-top: 30px;
+}
+
+.tiempos input[type="date"] {
+    margin-bottom: 5px;
+}
+
+.botones2 {
+    display: flex;
+    width: auto;
+    height: auto;
+}
+
+.botones2 h2 {
+    font-size: 5mm;
+    font-weight: 700;
+    line-height: 20px;
+    margin-right: 10px;
+}
+
+#planestudio h2 {
+    margin-left: 20px;
+}
+
+#planestudio {
+    background-color: aqua;
+    border-bottom: 5px outset aqua;
+    border-left: 4px outset aqua;
+    border-right: 4px outset aqua;
+    border-top: 5px outset aqua;
+    height: auto;
+    width: 100%;
+}
+
+#planestudio h1 {
+    font-size: 6.5mm;
+    font-weight: 800;
+    margin-bottom: 20px;
+    margin-top: 20px;
+    text-align: center;
+}
+
+#planestudio .planes {
+    display: block;
+}
+
+.selectos {
+    display: flex;
+    justify-content: space-between;
+    margin-left: 10%;
+    margin-right: 10%;
+    margin-top: 20px;
+}
+
+.profes {
+    display: block;
+    width: auto;
+    height: auto;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    margin-left: 38%;
+    margin-right: 30%;
+}
+
+.profes div {
+    margin-bottom: 10px;
+}
+
+#planestudio form input[type="submit"] {
+    background-color: blue;
+    border: 2px solid whitesmoke;
+    border-radius: 5px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3), -2px -2px 5px rgba(255, 255, 255, 0.2);
+    color: white;
+    cursor: pointer;
+    display: block;
+    margin-bottom: 25px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 25px;
+    padding: 3px 10px;
+    transition: background-color 0.3s ease-out;
+}
+
+#planestudio form input[type="submit"]:hover {
+    background-color: rgb(0, 0, 180);
+}
+
+#planestudio form input[type="submit"]:active {
+    transform: scale(0.9);
+}
+
+.botones2 button {
+    align-items: center;
+    border: 2px solid black;
+    border-radius: 2px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3), -2px -2px 5px rgba(255, 255, 255, 0.2);
+    color: black;
+    cursor: pointer;
+    display: flex;
+    height: 20px;
+    justify-content: center;
+    margin-right: 10px;
+    padding: 3px;
+    width: 20px;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.mas {
+    background-color: rgba(0, 255, 0, 0.5);
+}
+
+.mas:hover {
+    background-color: rgb(0, 255, 0);
+}
+
+.menos {
+    background-color: rgba(255, 0, 0, 0.5);
+}
+
+.menos:hover {
+    background-color: rgb(255, 0, 0);
+}
+
+.mas:active,
+.menos:active {
+    transform: scale(0.9);
+}
+
+.botones1 {
+    display: flex;
+    height: auto;
+    margin-top: 50px;
+    width: auto;
+}
+
+.botones1 h2 {
+    font-size: 5mm;
+    font-weight: 700;
+    line-height: 20px;
+    margin-right: 10px;
+}
+
+.botones1 button {
+    align-items: center;
+    border: 2px solid black;
+    border-radius: 2px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3), -2px -2px 5px rgba(255, 255, 255, 0.2);
+    color: black;
+    cursor: pointer;
+    display: flex;
+    height: 20px;
+    justify-content: center;
+    margin-right: 10px;
+    padding: 3px;
+    width: 20px;
+    transition: background-color 0.2s ease-in-out;
+}
+
+#div12,
+#div13,
+#div14,
+#div15 {
+    display: none;
+}
+
+#time-btn12,
+#time-btn13,
+#time-btn14,
+#time-btn15,
+#time-btn16,
+#time-btn17,
+#time-btn18 {
+    display: none;
+}
+
+#num-act2 {
+    display: none;
+}
+
+#div21,
+#div22,
+#div23,
+#div24,
+#div25 {
+    display: none;
+}
+
+#time-btn21,
+#time-btn22,
+#time-btn23,
+#time-btn24,
+#time-btn25,
+#time-btn26,
+#time-btn27,
+#time-btn28 {
+    display: none;
+}
+
+#num-act3 {
+    display: none;
+}
+
+#div31,
+#div32,
+#div33,
+#div34,
+#div35 {
+    display: none;
+}
+
+#time-btn31,
+#time-btn32,
+#time-btn33,
+#time-btn34,
+#time-btn35,
+#time-btn36,
+#time-btn37,
+#time-btn38 {
+    display: none;
+}
+
+#num-act4 {
+    display: none;
+}
+
+#div41,
+#div42,
+#div43,
+#div44,
+#div45 {
+    display: none;
+}
+
+#time-btn41,
+#time-btn42,
+#time-btn43,
+#time-btn44,
+#time-btn45,
+#time-btn46,
+#time-btn47,
+#time-btn48 {
+    display: none;
+}
+
+#num-act5 {
+    display: none;
+}
+
+#div51,
+#div52,
+#div53,
+#div54,
+#div55 {
+    display: none;
+}
+
+#time-btn51,
+#time-btn52,
+#time-btn53,
+#time-btn54,
+#time-btn55,
+#time-btn56,
+#time-btn57,
+#time-btn58 {
+    display: none;
+}
+
+#act-btn2,
+#act-btn3,
+#act-btn4,
+#act-btn5,
+#act-btn6,
+#act-btn7,
+#act-btn8 {
+    display: none;
+}
+
+#planestudio #profes12,
+#planestudio #profes22,
+#planestudio #profes32,
+#planestudio #profes42 {
+    display: none;
+}
+
+#planestudio #plan2,
+#planestudio #plan3,
+#planestudio #plan4 {
+    display: none;
+}
+
+#prof-btn12,
+#prof-btn22,
+#prof-btn32,
+#prof-btn42 {
+    display: none;
+}
+
+#class-btn2,
+#class-btn3,
+#class-btn4,
+#class-btn5,
+#class-btn6 {
+    display: none;
+}

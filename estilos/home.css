@@ -1,0 +1,354 @@
+* {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    box-sizing: border-box;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+#portada {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('../recursos/img/entredapreescolar.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    height: 100vh;
+}
+
+#portada h1 {
+    color: white;
+    font-size: 50px;
+}
+
+#portada #CEI {
+    position: absolute;
+    top: 50%;
+    left: 30%;
+}
+
+#portada #AB {
+    position: absolute;
+    top: 70%;
+    left: 41%;
+}
+
+#informacion {
+    background-color: rgb(59, 183, 224);
+    border-bottom: 5px outset rgb(59, 183, 224);
+    border-right: 4px outset rgb(59, 183, 224);
+}
+
+#contenedor_botones {
+    display: flex;
+    justify-content: center;
+    gap: 5%;
+}
+
+.infoboton {
+    background-color: rgb(54, 173, 101);
+    border: 5px outset rgb(54, 173, 101);
+    padding: 5px 4%;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    transition: background-color 0.5s ease-in-out, border 0.5s ease-in-out, color 0.5s ease-in-out;
+}
+
+.infoboton:hover {
+    color: whitesmoke;
+    background-color: rgb(35, 115, 65);
+    border: 5px outset rgb(35, 115, 65);
+}
+
+.infoboton:active {
+    transform: scale(0.9);
+}
+
+#contenedor_textos {
+    width: 100%;
+    height: auto;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    gap: 5%;
+}
+
+#textmision {
+    opacity: 1;
+    margin-left: 10%;
+}
+
+#textvision {
+    opacity: 0;
+    margin-right: 10%;
+}
+
+#textmision,
+#textvision {
+    display: block;
+    background-color: rgb(22, 168, 223);
+    border-radius: 5px;
+    width: 60%;
+    height: auto;
+    margin-bottom: 20px;
+    transition: opacity 0.8s ease-in-out;
+}
+
+#textmision h4,
+#textvision h4 {
+    text-align: center;
+    font-size: 10mm;
+    font-weight: 300;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+#textmision p,
+#textvision p {
+    font-size: 4mm;
+    padding-bottom: 20px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+#contenedor_imagenes {
+    width: 300px;
+    height: auto;
+    position: absolute;
+    top: 128%;
+    left: 53%;
+    transition: left 1s ease-out;
+}
+
+#imgmision,
+#imgvision {
+    overflow: hidden;
+}
+
+#imgmision {
+    display: flex;
+}
+
+#imgvision {
+    display: none;
+}
+
+#imgmision ul,
+#imgvision ul {
+    display: flex;
+    padding: 0;
+    width: 900px;
+    animation: deslizar 15s infinite;
+}
+
+#imgmision li,
+#imgvision li {
+    width: 300px;
+    list-style: none;
+}
+
+#imgmision img,
+#imgvision img {
+    width: 300px;
+}
+
+#piepagina {
+    width: 100%;
+    display: flex;
+    background-color: rgb(54, 173, 101);
+    border-bottom: 5px outset rgb(54, 173, 101);
+    border-right: 4px outset rgb(54, 173, 101);
+    gap: 10px;
+}
+
+#contactanos,
+#ubicanos {
+    width: 45%;
+    height: auto;
+    margin: 20px 5%;
+    display: block;
+    transition: background-color 0.8s ease-in-out, border-radius 0.5s ease-in-out;
+}
+
+#contactanos:hover,
+#ubicanos:hover {
+    background-color: rgb(44, 143, 80);
+    border-radius: 10%;
+}
+
+#contactanos:hover h2,
+#ubicanos:hover h2 {
+    color: white;
+}
+
+#contactanos h2,
+#ubicanos h2 {
+    font-size: 8mm;
+    font-weight: 600;
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    transition: color 0.7s ease-in-out;
+}
+
+.datos {
+    display: flex;
+    width: 100%;
+    height: auto;
+    margin-top: 40px;
+    margin-bottom: 30px;
+    gap: 10%;
+    justify-content: center;
+}
+
+.datos div {
+    display: flex;
+}
+
+.datos div img {
+    width: 20px;
+    height: auto;
+    margin-right: 5px;
+}
+
+.datos div p {
+    font-size: 5mm;
+    font-weight: 600;
+}
+
+#numero {
+    width: 30px;
+    height: auto;
+}
+
+form {
+    display: block;
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 40px;
+    margin-bottom: 20px;
+    border: 2px solid rgb(48, 185, 196);
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+form label,
+form input,
+form textarea {
+    font-size: 4mm;
+    font-weight: 600;
+}
+
+form input,
+form textarea {
+    color: white;
+    width: 100%;
+    border: none;
+    outline: none;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+    border-radius: 5px;
+    background: transparent;
+}
+
+.caja {
+    width: 90%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+form input::placeholder {
+    color: white;
+}
+
+form label {
+    display: block;
+    margin-top: 10px;
+    margin-left: 20px;
+}
+
+form textarea {
+    min-width: 100%;
+    max-width: 100%;
+    min-height: 100px;
+    max-height: 150px;
+}
+
+.validar-btn {
+    display: block;
+    width: 30%;
+    height: auto;
+    color: black;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    cursor: pointer;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    transition: background-color 0.8s ease-in-out, color 0.7s ease-in-out;
+}
+
+.validar-btn:hover {
+    background-color: rgb(54, 173, 101);
+    color: white;
+}
+
+.validar-btn:active {
+    transform: scale(0.9);
+}
+
+#ubicanos div {
+    display: flex;
+    margin-bottom: 20px;
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#ubicanos div img {
+    width: 30px;
+    height: auto;
+    margin-right: 5px;
+}
+
+#ubicanos div p {
+    font-size: 5mm;
+    font-weight: 600;
+}
+
+iframe {
+    display: block;
+    width: 90%;
+    height: 60%;
+    margin-top: 30px;
+    border-radius: 5%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+@keyframes deslizar {
+    0% {
+        margin-left: 0;
+    }
+
+    20% {
+        margin-left: -100%;
+    }
+
+    40% {
+        margin-left: -200%;
+    }
+
+    60% {
+        margin-left: -200%;
+    }
+
+    80% {
+        margin-left: -100%;
+    }
+
+    100% {
+        margin-left: 0;
+    }
+}
