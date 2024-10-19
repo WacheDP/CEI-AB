@@ -34,6 +34,7 @@ if (empty($_SESSION['usuario'])) {
 
     <main>
         <?php
+        date_default_timezone_set('America/Caracas');
         $hoy = date("Y-m-d");
         $sql = $conexion->prepare('SELECT * FROM abañoesc WHERE ? BETWEEN añoescini AND añoescfin;');
         $sql->bind_param("s", $hoy);
@@ -54,20 +55,16 @@ if (empty($_SESSION['usuario'])) {
         $fechas->free_result();
         $sql->close();
 
-        $sql = $conexion->prepare('SELECT DISTINCT cronograma.cracact FROM abcalesc AS dia, abcrac AS cronograma WHERE dia.calescdate = ? and dia.calesccod = cronograma.calesccod;');
+        $sql = $conexion->prepare('SELECT acto.craccod FROM abcalesc AS dia, abcrac AS acto WHERE dia.calescdate = ? AND acto.cracact = "ORGANIZACION DE DOCENTES POR GRUPO Y SECCIONES" AND acto.calesccod = dia.calesccod;');
         $sql->bind_param("s", $hoy);
         $sql->execute();
-        $exe = $sql->get_result();
+        $actividades = $sql->get_result()->num_rows;
         $bandera2 = false;
 
-        while ($actividad = $exe->fetch_assoc()) {
-            if ($actividad['cracact'] == "ORGANIZACION DE DOCENTES POR GRUPO Y SECCIONES") {
-                $bandera2 = true;
-                break;
-            };
+        if ($actividades != 0) {
+            $bandera2 = true;
         };
 
-        $exe->free_result();
         $sql->close();
         ?>
 
@@ -111,412 +108,418 @@ if (empty($_SESSION['usuario'])) {
                     <input type="submit" value="Actualizar Año Escolar" name="btn">
                 </form>
             </section>
+        <?php endif; ?>
 
-            <?php if ($bandera2): ?>
-                <section id="planestudio">
+        <?php if ($bandera2): ?>
+            <section id="planestudio">
 
-                    <h1>ORGANIZAR DOCENTES-X-SALÓN <?php echo $añoescolar; ?></h1>
-                    <form action="./php/procesar_matriculas.php" method="post">
+                <h1>ORGANIZAR DOCENTES-X-SALÓN <?php echo $añoescolar; ?></h1>
+                <form action="./php/procesar_matriculas.php" method="post">
 
-                        <div id="plan1" class="planes">
-                            <div class="selectos">
-                                <div>
-                                    <label for="salon1">Salón: </label>
-                                    <select name="salon1" id="salon1">
-                                        <option value="">Seleccione una opción</option>
+                    <div id="plan1" class="planes">
+                        <div class="selectos">
+                            <div>
+                                <label for="salon1">Salón: </label>
+                                <select name="salon1" id="salon1">
+                                    <option value="">Seleccione una opción</option>
 
-                                        <?php
-                                        $sql = $conexion->prepare("SELECT aula.aulacod, aula.aulanom FROM abaula AS aula INNER JOIN (SELECT aulacod, MAX(dauladate) AS max_date FROM detaula GROUP BY aulacod) AS max_dates ON aula.aulacod = max_dates.aulacod INNER JOIN detaula AS det ON aula.aulacod = det.aulacod AND det.dauladate = max_dates.max_date WHERE aula.aulanom LIKE '%Aula%' AND det.daulastatus = 1;");
-                                        $sql->execute();
-                                        $exe = $sql->get_result();
+                                    <?php
+                                    $sql = $conexion->prepare("SELECT aula.aulacod, aula.aulanom FROM abaula AS aula INNER JOIN (SELECT aulacod, MAX(dauladate) AS max_date FROM detaula GROUP BY aulacod) AS max_dates ON aula.aulacod = max_dates.aulacod INNER JOIN detaula AS det ON aula.aulacod = det.aulacod AND det.dauladate = max_dates.max_date WHERE aula.aulanom LIKE '%Aula%' AND det.daulastatus = 1;");
+                                    $sql->execute();
+                                    $exe = $sql->get_result();
 
-                                        $html = "";
-                                        while ($aula = $exe->fetch_assoc()) {
-                                            $html .= '<option value="' . $aula['aulacod'] . '">' . $aula['aulanom'] . '</option>';
-                                        };
+                                    $html = "";
+                                    while ($aula = $exe->fetch_assoc()) {
+                                        $html .= '<option value="' . $aula['aulacod'] . '">' . $aula['aulanom'] . '</option>';
+                                    };
 
-                                        echo $html;
+                                    echo $html;
 
-                                        $exe->free_result();
-                                        $sql->close();
-                                        ?>
-                                    </select>
-                                </div>
-                                <div>
-                                    <label for="turno1">Turno: </label>
-                                    <select name="turno1" id="turno1">
-                                        <option value="">Seleccione una opción</option>
-                                        <option value="MAÑANA">Mañana</option>
-                                        <option value="TARDE">Tarde</option>
-                                    </select>
-                                </div>
-                                <div>
-                                    <label for="grupo1">Grupo: </label>
-                                    <select name="grupo1" id="grupo1">
-                                        <option value="">Seleccione una opción</option>
-                                        <option value="MATERNAL">Maternal</option>
-                                        <option value="A">Grupo A</option>
-                                        <option value="B">Grupo B</option>
-                                        <option value="C">Grupo C</option>
-                                    </select>
-                                </div>
+                                    $exe->free_result();
+                                    $sql->close();
+                                    ?>
+                                </select>
                             </div>
-                            <div class="profes">
-                                <div id="profes11">
-                                    <label for="docentes11">Docentes del nivel: </label>
-                                    <select name="docentes11" id="docentes11">
-                                        <option value="">Seleccione una opción</option>
-
-                                        <?php
-                                        $sql = $conexion->prepare('SELECT p.persci, p.persnom1, p.persapel1 FROM abpers AS p INNER JOIN abuser AS u ON u.persci = p.persci WHERE p.perscatg = "PERSONAL" AND u.usersecure = 3;');
-                                        $sql->execute();
-                                        $exe = $sql->get_result();
-
-                                        $html = "";
-                                        while ($profe = $exe->fetch_assoc()) {
-                                            $html .= '<option value="' . htmlspecialchars($profe['persci']) . '">' . htmlspecialchars($profe['persnom1']) . ' ' . htmlspecialchars($profe['persapel1']) . '</option>';
-                                        };
-
-                                        echo $html;
-
-                                        $exe->free_result();
-                                        $sql->close();
-                                        ?>
-                                    </select>
-                                </div>
-                                <div id="profes12">
-                                    <label for="docentes12">Docentes del nivel: </label>
-                                    <select name="docentes12" id="docentes12">
-                                        <option value="">Seleccione una opción</option>
-
-                                        <?php
-                                        $sql = $conexion->prepare('SELECT p.persci, p.persnom1, p.persapel1 FROM abpers AS p INNER JOIN abuser AS u ON u.persci = p.persci WHERE p.perscatg = "PERSONAL" AND u.usersecure = 3;');
-                                        $sql->execute();
-                                        $exe = $sql->get_result();
-
-                                        $html = "";
-                                        while ($profe = $exe->fetch_assoc()) {
-                                            $html .= '<option value="' . htmlspecialchars($profe['persci']) . '">' . htmlspecialchars($profe['persnom1']) . ' ' . htmlspecialchars($profe['persapel1']) . '</option>';
-                                        };
-
-                                        echo $html;
-
-                                        $exe->free_result();
-                                        $sql->close();
-                                        ?>
-                                    </select>
-                                </div>
+                            <div>
+                                <label for="turno1">Turno: </label>
+                                <select name="turno1" id="turno1">
+                                    <option value="">Seleccione una opción</option>
+                                    <option value="MAÑANA">Mañana</option>
+                                    <option value="TARDE">Tarde</option>
+                                </select>
                             </div>
-                            <div class="botones2">
-                                <h2>Agregar Docentes</h2>
-                                <button id="prof-btn11" class="mas" type="button" onclick="Aumentar_Profesores(1);">+</button>
-                                <button id="prof-btn12" class="menos" type="button" onclick="Quitar_Profesores(1);">-</button>
+                            <div>
+                                <label for="grupo1">Grupo: </label>
+                                <select name="grupo1" id="grupo1">
+                                    <option value="">Seleccione una opción</option>
+                                    <option value="MATERNAL">Maternal</option>
+                                    <option value="A">Grupo A</option>
+                                    <option value="B">Grupo B</option>
+                                    <option value="C">Grupo C</option>
+                                </select>
                             </div>
                         </div>
+                        <div class="profes">
+                            <div id="profes11">
+                                <label for="docentes11">Docentes del nivel: </label>
+                                <select name="docentes11" id="docentes11">
+                                    <option value="">Seleccione una opción</option>
 
-                        <div id="plan2" class="planes">
-                            <div class="selectos">
-                                <div>
-                                    <label for="salon2">Salón: </label>
-                                    <select name="salon2" id="salon2">
-                                        <option value="">Seleccione una opción</option>
+                                    <?php
+                                    $sql = $conexion->prepare('SELECT p.persci, p.persnom1, p.persapel1 FROM abpers AS p INNER JOIN abuser AS u ON u.persci = p.persci WHERE p.perscatg = "PERSONAL" AND u.usersecure = 3;');
+                                    $sql->execute();
+                                    $exe = $sql->get_result();
 
-                                        <?php
-                                        $sql = $conexion->prepare("SELECT aula.aulacod, aula.aulanom FROM abaula AS aula INNER JOIN (SELECT aulacod, MAX(dauladate) AS max_date FROM detaula GROUP BY aulacod) AS max_dates ON aula.aulacod = max_dates.aulacod INNER JOIN detaula AS det ON aula.aulacod = det.aulacod AND det.dauladate = max_dates.max_date WHERE aula.aulanom LIKE '%Aula%' AND det.daulastatus = 1;");
-                                        $sql->execute();
-                                        $exe = $sql->get_result();
+                                    $html = "";
+                                    while ($profe = $exe->fetch_assoc()) {
+                                        $html .= '<option value="' . htmlspecialchars($profe['persci']) . '">' . htmlspecialchars($profe['persnom1']) . ' ' . htmlspecialchars($profe['persapel1']) . '</option>';
+                                    };
 
-                                        $html = "";
-                                        while ($aula = $exe->fetch_assoc()) {
-                                            $html .= '<option value="' . $aula['aulacod'] . '">' . $aula['aulanom'] . '</option>';
-                                        };
+                                    echo $html;
 
-                                        echo $html;
-
-                                        $exe->free_result();
-                                        $sql->close();
-                                        ?>
-                                    </select>
-                                </div>
-                                <div>
-                                    <label for="turno2">Turno: </label>
-                                    <select name="turno2" id="turno2">
-                                        <option value="">Seleccione una opción</option>
-                                        <option value="MAÑANA">Mañana</option>
-                                        <option value="TARDE">Tarde</option>
-                                    </select>
-                                </div>
-                                <div>
-                                    <label for="grupo2">Grupo: </label>
-                                    <select name="grupo2" id="grupo2">
-                                        <option value="">Seleccione una opción</option>
-                                        <option value="MATERNAL">Maternal</option>
-                                        <option value="A">Grupo A</option>
-                                        <option value="B">Grupo B</option>
-                                        <option value="C">Grupo C</option>
-                                    </select>
-                                </div>
+                                    $exe->free_result();
+                                    $sql->close();
+                                    ?>
+                                </select>
                             </div>
-                            <div class="profes">
-                                <div id="profes21">
-                                    <label for="docentes21">Docentes del nivel: </label>
-                                    <select name="docentes21" id="docentes21">
-                                        <option value="">Seleccione una opción</option>
+                            <div id="profes12">
+                                <label for="docentes12">Docentes del nivel: </label>
+                                <select name="docentes12" id="docentes12">
+                                    <option value="">Seleccione una opción</option>
 
-                                        <?php
-                                        $sql = $conexion->prepare('SELECT p.persci, p.persnom1, p.persapel1 FROM abpers AS p INNER JOIN abuser AS u ON u.persci = p.persci WHERE p.perscatg = "PERSONAL" AND u.usersecure = 3;');
-                                        $sql->execute();
-                                        $exe = $sql->get_result();
+                                    <?php
+                                    $sql = $conexion->prepare('SELECT p.persci, p.persnom1, p.persapel1 FROM abpers AS p INNER JOIN abuser AS u ON u.persci = p.persci WHERE p.perscatg = "PERSONAL" AND u.usersecure = 3;');
+                                    $sql->execute();
+                                    $exe = $sql->get_result();
 
-                                        $html = "";
-                                        while ($profe = $exe->fetch_assoc()) {
-                                            $html .= '<option value="' . htmlspecialchars($profe['persci']) . '">' . htmlspecialchars($profe['persnom1']) . ' ' . htmlspecialchars($profe['persapel1']) . '</option>';
-                                        };
+                                    $html = "";
+                                    while ($profe = $exe->fetch_assoc()) {
+                                        $html .= '<option value="' . htmlspecialchars($profe['persci']) . '">' . htmlspecialchars($profe['persnom1']) . ' ' . htmlspecialchars($profe['persapel1']) . '</option>';
+                                    };
 
-                                        echo $html;
+                                    echo $html;
 
-                                        $exe->free_result();
-                                        $sql->close();
-                                        ?>
-                                    </select>
-                                </div>
-                                <div id="profes22">
-                                    <label for="docentes22">Docentes del nivel: </label>
-                                    <select name="docentes22" id="docentes22">
-                                        <option value="">Seleccione una opción</option>
-
-                                        <?php
-                                        $sql = $conexion->prepare('SELECT p.persci, p.persnom1, p.persapel1 FROM abpers AS p INNER JOIN abuser AS u ON u.persci = p.persci WHERE p.perscatg = "PERSONAL" AND u.usersecure = 3;');
-                                        $sql->execute();
-                                        $exe = $sql->get_result();
-
-                                        $html = "";
-                                        while ($profe = $exe->fetch_assoc()) {
-                                            $html .= '<option value="' . htmlspecialchars($profe['persci']) . '">' . htmlspecialchars($profe['persnom1']) . ' ' . htmlspecialchars($profe['persapel1']) . '</option>';
-                                        };
-
-                                        echo $html;
-
-                                        $exe->free_result();
-                                        $sql->close();
-                                        ?>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="botones2">
-                                <h2>Agregar Docentes</h2>
-                                <button id="prof-btn21" class="mas" type="button" onclick="Aumentar_Profesores(2);">+</button>
-                                <button id="prof-btn22" class="menos" type="button" onclick="Quitar_Profesores(2);">-</button>
+                                    $exe->free_result();
+                                    $sql->close();
+                                    ?>
+                                </select>
                             </div>
                         </div>
+                        <div class="botones2">
+                            <h2>Agregar Docentes</h2>
+                            <button id="prof-btn11" class="mas" type="button" onclick="Aumentar_Profesores(1);">+</button>
+                            <button id="prof-btn12" class="menos" type="button" onclick="Quitar_Profesores(1);">-</button>
+                        </div>
+                    </div>
 
-                        <div id="plan3" class="planes">
-                            <div class="selectos">
-                                <div>
-                                    <label for="salon3">Salón: </label>
-                                    <select name="salon3" id="salon3">
-                                        <option value="">Seleccione una opción</option>
 
-                                        <?php
-                                        $sql = $conexion->prepare("SELECT aula.aulacod, aula.aulanom FROM abaula AS aula INNER JOIN (SELECT aulacod, MAX(dauladate) AS max_date FROM detaula GROUP BY aulacod) AS max_dates ON aula.aulacod = max_dates.aulacod INNER JOIN detaula AS det ON aula.aulacod = det.aulacod AND det.dauladate = max_dates.max_date WHERE aula.aulanom LIKE '%Aula%' AND det.daulastatus = 1;");
-                                        $sql->execute();
-                                        $exe = $sql->get_result();
+                    <div id="plan2" class="planes">
+                        <div class="selectos">
+                            <div>
+                                <label for="salon2">Salón: </label>
+                                <select name="salon2" id="salon2">
+                                    <option value="">Seleccione una opción</option>
 
-                                        $html = "";
-                                        while ($aula = $exe->fetch_assoc()) {
-                                            $html .= '<option value="' . $aula['aulacod'] . '">' . $aula['aulanom'] . '</option>';
-                                        };
+                                    <?php
+                                    $sql = $conexion->prepare("SELECT aula.aulacod, aula.aulanom FROM abaula AS aula INNER JOIN (SELECT aulacod, MAX(dauladate) AS max_date FROM detaula GROUP BY aulacod) AS max_dates ON aula.aulacod = max_dates.aulacod INNER JOIN detaula AS det ON aula.aulacod = det.aulacod AND det.dauladate = max_dates.max_date WHERE aula.aulanom LIKE '%Aula%' AND det.daulastatus = 1;");
+                                    $sql->execute();
+                                    $exe = $sql->get_result();
 
-                                        echo $html;
+                                    $html = "";
+                                    while ($aula = $exe->fetch_assoc()) {
+                                        $html .= '<option value="' . $aula['aulacod'] . '">' . $aula['aulanom'] . '</option>';
+                                    };
 
-                                        $exe->free_result();
-                                        $sql->close();
-                                        ?>
-                                    </select>
-                                </div>
-                                <div>
-                                    <label for="turno3">Turno: </label>
-                                    <select name="turno3" id="turno3">
-                                        <option value="">Seleccione una opción</option>
-                                        <option value="MAÑANA">Mañana</option>
-                                        <option value="TARDE">Tarde</option>
-                                    </select>
-                                </div>
-                                <div>
-                                    <label for="grupo3">Grupo: </label>
-                                    <select name="grupo3" id="grupo3">
-                                        <option value="">Seleccione una opción</option>
-                                        <option value="MATERNAL">Maternal</option>
-                                        <option value="A">Grupo A</option>
-                                        <option value="B">Grupo B</option>
-                                        <option value="C">Grupo C</option>
-                                    </select>
-                                </div>
+                                    echo $html;
+
+                                    $exe->free_result();
+                                    $sql->close();
+                                    ?>
+                                </select>
                             </div>
-                            <div class="profes">
-                                <div id="profes31">
-                                    <label for="docentes31">Docentes del nivel: </label>
-                                    <select name="docentes31" id="docentes31">
-                                        <option value="">Seleccione una opción</option>
-
-                                        <?php
-                                        $sql = $conexion->prepare('SELECT p.persci, p.persnom1, p.persapel1 FROM abpers AS p INNER JOIN abuser AS u ON u.persci = p.persci WHERE p.perscatg = "PERSONAL" AND u.usersecure = 3;');
-                                        $sql->execute();
-                                        $exe = $sql->get_result();
-
-                                        $html = "";
-                                        while ($profe = $exe->fetch_assoc()) {
-                                            $html .= '<option value="' . htmlspecialchars($profe['persci']) . '">' . htmlspecialchars($profe['persnom1']) . ' ' . htmlspecialchars($profe['persapel1']) . '</option>';
-                                        };
-
-                                        echo $html;
-
-                                        $exe->free_result();
-                                        $sql->close();
-                                        ?>
-                                    </select>
-                                </div>
-                                <div id="profes32">
-                                    <label for="docentes32">Docentes del nivel: </label>
-                                    <select name="docentes32" id="docentes32">
-                                        <option value="">Seleccione una opción</option>
-
-                                        <?php
-                                        $sql = $conexion->prepare('SELECT p.persci, p.persnom1, p.persapel1 FROM abpers AS p INNER JOIN abuser AS u ON u.persci = p.persci WHERE p.perscatg = "PERSONAL" AND u.usersecure = 3;');
-                                        $sql->execute();
-                                        $exe = $sql->get_result();
-
-                                        $html = "";
-                                        while ($profe = $exe->fetch_assoc()) {
-                                            $html .= '<option value="' . htmlspecialchars($profe['persci']) . '">' . htmlspecialchars($profe['persnom1']) . ' ' . htmlspecialchars($profe['persapel1']) . '</option>';
-                                        };
-
-                                        echo $html;
-
-                                        $exe->free_result();
-                                        $sql->close();
-                                        ?>
-                                    </select>
-                                </div>
+                            <div>
+                                <label for="turno2">Turno: </label>
+                                <select name="turno2" id="turno2">
+                                    <option value="">Seleccione una opción</option>
+                                    <option value="MAÑANA">Mañana</option>
+                                    <option value="TARDE">Tarde</option>
+                                </select>
                             </div>
-                            <div class="botones2">
-                                <h2>Agregar Docentes</h2>
-                                <button id="prof-btn31" class="mas" type="button" onclick="Aumentar_Profesores(3);">+</button>
-                                <button id="prof-btn32" class="menos" type="button" onclick="Quitar_Profesores(3);">-</button>
+                            <div>
+                                <label for="grupo2">Grupo: </label>
+                                <select name="grupo2" id="grupo2">
+                                    <option value="">Seleccione una opción</option>
+                                    <option value="MATERNAL">Maternal</option>
+                                    <option value="A">Grupo A</option>
+                                    <option value="B">Grupo B</option>
+                                    <option value="C">Grupo C</option>
+                                </select>
                             </div>
                         </div>
+                        <div class="profes">
+                            <div id="profes21">
+                                <label for="docentes21">Docentes del nivel: </label>
+                                <select name="docentes21" id="docentes21">
+                                    <option value="">Seleccione una opción</option>
 
-                        <div id="plan4" class="planes">
-                            <div class="selectos">
-                                <div>
-                                    <label for="salon4">Salón: </label>
-                                    <select name="salon4" id="salon4">
-                                        <option value="">Seleccione una opción</option>
+                                    <?php
+                                    $sql = $conexion->prepare('SELECT p.persci, p.persnom1, p.persapel1 FROM abpers AS p INNER JOIN abuser AS u ON u.persci = p.persci WHERE p.perscatg = "PERSONAL" AND u.usersecure = 3;');
+                                    $sql->execute();
+                                    $exe = $sql->get_result();
 
-                                        <?php
-                                        $sql = $conexion->prepare("SELECT aula.aulacod, aula.aulanom FROM abaula AS aula INNER JOIN (SELECT aulacod, MAX(dauladate) AS max_date FROM detaula GROUP BY aulacod) AS max_dates ON aula.aulacod = max_dates.aulacod INNER JOIN detaula AS det ON aula.aulacod = det.aulacod AND det.dauladate = max_dates.max_date WHERE aula.aulanom LIKE '%Aula%' AND det.daulastatus = 1;");
-                                        $sql->execute();
-                                        $exe = $sql->get_result();
+                                    $html = "";
+                                    while ($profe = $exe->fetch_assoc()) {
+                                        $html .= '<option value="' . htmlspecialchars($profe['persci']) . '">' . htmlspecialchars($profe['persnom1']) . ' ' . htmlspecialchars($profe['persapel1']) . '</option>';
+                                    };
 
-                                        $html = "";
-                                        while ($aula = $exe->fetch_assoc()) {
-                                            $html .= '<option value="' . $aula['aulacod'] . '">' . $aula['aulanom'] . '</option>';
-                                        };
+                                    echo $html;
 
-                                        echo $html;
-
-                                        $exe->free_result();
-                                        $sql->close();
-                                        ?>
-                                    </select>
-                                </div>
-                                <div>
-                                    <label for="turno4">Turno: </label>
-                                    <select name="turno4" id="turno4">
-                                        <option value="">Seleccione una opción</option>
-                                        <option value="MAÑANA">Mañana</option>
-                                        <option value="TARDE">Tarde</option>
-                                    </select>
-                                </div>
-                                <div>
-                                    <label for="grupo4">Grupo: </label>
-                                    <select name="grupo4" id="grupo4">
-                                        <option value="">Seleccione una opción</option>
-                                        <option value="MATERNAL">Maternal</option>
-                                        <option value="A">Grupo A</option>
-                                        <option value="B">Grupo B</option>
-                                        <option value="C">Grupo C</option>
-                                    </select>
-                                </div>
+                                    $exe->free_result();
+                                    $sql->close();
+                                    ?>
+                                </select>
                             </div>
-                            <div class="profes">
-                                <div id="profes41">
-                                    <label for="docentes41">Docentes del nivel: </label>
-                                    <select name="docentes41" id="docentes41">
-                                        <option value="">Seleccione una opción</option>
+                            <div id="profes22">
+                                <label for="docentes22">Docentes del nivel: </label>
+                                <select name="docentes22" id="docentes22">
+                                    <option value="">Seleccione una opción</option>
 
-                                        <?php
-                                        $sql = $conexion->prepare('SELECT p.persci, p.persnom1, p.persapel1 FROM abpers AS p INNER JOIN abuser AS u ON u.persci = p.persci WHERE p.perscatg = "PERSONAL" AND u.usersecure = 3;');
-                                        $sql->execute();
-                                        $exe = $sql->get_result();
+                                    <?php
+                                    $sql = $conexion->prepare('SELECT p.persci, p.persnom1, p.persapel1 FROM abpers AS p INNER JOIN abuser AS u ON u.persci = p.persci WHERE p.perscatg = "PERSONAL" AND u.usersecure = 3;');
+                                    $sql->execute();
+                                    $exe = $sql->get_result();
 
-                                        $html = "";
-                                        while ($profe = $exe->fetch_assoc()) {
-                                            $html .= '<option value="' . htmlspecialchars($profe['persci']) . '">' . htmlspecialchars($profe['persnom1']) . ' ' . htmlspecialchars($profe['persapel1']) . '</option>';
-                                        };
+                                    $html = "";
+                                    while ($profe = $exe->fetch_assoc()) {
+                                        $html .= '<option value="' . htmlspecialchars($profe['persci']) . '">' . htmlspecialchars($profe['persnom1']) . ' ' . htmlspecialchars($profe['persapel1']) . '</option>';
+                                    };
 
-                                        echo $html;
+                                    echo $html;
 
-                                        $exe->free_result();
-                                        $sql->close();
-                                        ?>
-                                    </select>
-                                </div>
-                                <div id="profes42">
-                                    <label for="docentes42">Docentes del nivel: </label>
-                                    <select name="docentes42" id="docentes42">
-                                        <option value="">Seleccione una opción</option>
-
-                                        <?php
-                                        $sql = $conexion->prepare('SELECT p.persci, p.persnom1, p.persapel1 FROM abpers AS p INNER JOIN abuser AS u ON u.persci = p.persci WHERE p.perscatg = "PERSONAL" AND u.usersecure = 3;');
-                                        $sql->execute();
-                                        $exe = $sql->get_result();
-
-                                        $html = "";
-                                        while ($profe = $exe->fetch_assoc()) {
-                                            $html .= '<option value="' . htmlspecialchars($profe['persci']) . '">' . htmlspecialchars($profe['persnom1']) . ' ' . htmlspecialchars($profe['persapel1']) . '</option>';
-                                        };
-
-                                        echo $html;
-
-                                        $exe->free_result();
-                                        $sql->close();
-                                        ?>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="botones2">
-                                <h2>Agregar Docentes</h2>
-                                <button id="prof-btn41" class="mas" type="button" onclick="Aumentar_Profesores(4);">+</button>
-                                <button id="prof-btn42" class="menos" type="button" onclick="Quitar_Profesores(4);">-</button>
+                                    $exe->free_result();
+                                    $sql->close();
+                                    ?>
+                                </select>
                             </div>
                         </div>
-
-                        <div class="botones1">
-                            <h2>Agregar Clases</h2>
-                            <button id="class-btn1" class="mas" type="button" onclick="Aumentar_Planes(2);">+</button>
-                            <button id="class-btn2" class="mas" type="button" onclick="Aumentar_Planes(3);">+</button>
-                            <button id="class-btn3" class="menos" type="button" onclick="Quitar_Planes(1);">-</button>
-                            <button id="class-btn4" class="mas" type="button" onclick="Aumentar_Planes(4);">+</button>
-                            <button id="class-btn5" class="menos" type="button" onclick="Quitar_Planes(2);">-</button>
-                            <button id="class-btn6" class="menos" type="button" onclick="Quitar_Planes(3);">-</button>
+                        <div class="botones2">
+                            <h2>Agregar Docentes</h2>
+                            <button id="prof-btn21" class="mas" type="button" onclick="Aumentar_Profesores(2);">+</button>
+                            <button id="prof-btn22" class="menos" type="button" onclick="Quitar_Profesores(2);">-</button>
                         </div>
+                    </div>
 
-                        <input type="submit" value="Registrar docentes/aulas" name="plan-btn">
-                    </form>
-                </section>
-            <?php endif; ?>
 
+                    <div id="plan3" class="planes">
+                        <div class="selectos">
+                            <div>
+                                <label for="salon3">Salón: </label>
+                                <select name="salon3" id="salon3">
+                                    <option value="">Seleccione una opción</option>
+
+                                    <?php
+                                    $sql = $conexion->prepare("SELECT aula.aulacod, aula.aulanom FROM abaula AS aula INNER JOIN (SELECT aulacod, MAX(dauladate) AS max_date FROM detaula GROUP BY aulacod) AS max_dates ON aula.aulacod = max_dates.aulacod INNER JOIN detaula AS det ON aula.aulacod = det.aulacod AND det.dauladate = max_dates.max_date WHERE aula.aulanom LIKE '%Aula%' AND det.daulastatus = 1;");
+                                    $sql->execute();
+                                    $exe = $sql->get_result();
+
+                                    $html = "";
+                                    while ($aula = $exe->fetch_assoc()) {
+                                        $html .= '<option value="' . $aula['aulacod'] . '">' . $aula['aulanom'] . '</option>';
+                                    };
+
+                                    echo $html;
+
+                                    $exe->free_result();
+                                    $sql->close();
+                                    ?>
+                                </select>
+                            </div>
+                            <div>
+                                <label for="turno3">Turno: </label>
+                                <select name="turno3" id="turno3">
+                                    <option value="">Seleccione una opción</option>
+                                    <option value="MAÑANA">Mañana</option>
+                                    <option value="TARDE">Tarde</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label for="grupo3">Grupo: </label>
+                                <select name="grupo3" id="grupo3">
+                                    <option value="">Seleccione una opción</option>
+                                    <option value="MATERNAL">Maternal</option>
+                                    <option value="A">Grupo A</option>
+                                    <option value="B">Grupo B</option>
+                                    <option value="C">Grupo C</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="profes">
+                            <div id="profes31">
+                                <label for="docentes31">Docentes del nivel: </label>
+                                <select name="docentes31" id="docentes31">
+                                    <option value="">Seleccione una opción</option>
+
+                                    <?php
+                                    $sql = $conexion->prepare('SELECT p.persci, p.persnom1, p.persapel1 FROM abpers AS p INNER JOIN abuser AS u ON u.persci = p.persci WHERE p.perscatg = "PERSONAL" AND u.usersecure = 3;');
+                                    $sql->execute();
+                                    $exe = $sql->get_result();
+
+                                    $html = "";
+                                    while ($profe = $exe->fetch_assoc()) {
+                                        $html .= '<option value="' . htmlspecialchars($profe['persci']) . '">' . htmlspecialchars($profe['persnom1']) . ' ' . htmlspecialchars($profe['persapel1']) . '</option>';
+                                    };
+
+                                    echo $html;
+
+                                    $exe->free_result();
+                                    $sql->close();
+                                    ?>
+                                </select>
+                            </div>
+                            <div id="profes32">
+                                <label for="docentes32">Docentes del nivel: </label>
+                                <select name="docentes32" id="docentes32">
+                                    <option value="">Seleccione una opción</option>
+
+                                    <?php
+                                    $sql = $conexion->prepare('SELECT p.persci, p.persnom1, p.persapel1 FROM abpers AS p INNER JOIN abuser AS u ON u.persci = p.persci WHERE p.perscatg = "PERSONAL" AND u.usersecure = 3;');
+                                    $sql->execute();
+                                    $exe = $sql->get_result();
+
+                                    $html = "";
+                                    while ($profe = $exe->fetch_assoc()) {
+                                        $html .= '<option value="' . htmlspecialchars($profe['persci']) . '">' . htmlspecialchars($profe['persnom1']) . ' ' . htmlspecialchars($profe['persapel1']) . '</option>';
+                                    };
+
+                                    echo $html;
+
+                                    $exe->free_result();
+                                    $sql->close();
+                                    ?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="botones2">
+                            <h2>Agregar Docentes</h2>
+                            <button id="prof-btn31" class="mas" type="button" onclick="Aumentar_Profesores(3);">+</button>
+                            <button id="prof-btn32" class="menos" type="button" onclick="Quitar_Profesores(3);">-</button>
+                        </div>
+                    </div>
+
+
+                    <div id="plan4" class="planes">
+                        <div class="selectos">
+                            <div>
+                                <label for="salon4">Salón: </label>
+                                <select name="salon4" id="salon4">
+                                    <option value="">Seleccione una opción</option>
+
+                                    <?php
+                                    $sql = $conexion->prepare("SELECT aula.aulacod, aula.aulanom FROM abaula AS aula INNER JOIN (SELECT aulacod, MAX(dauladate) AS max_date FROM detaula GROUP BY aulacod) AS max_dates ON aula.aulacod = max_dates.aulacod INNER JOIN detaula AS det ON aula.aulacod = det.aulacod AND det.dauladate = max_dates.max_date WHERE aula.aulanom LIKE '%Aula%' AND det.daulastatus = 1;");
+                                    $sql->execute();
+                                    $exe = $sql->get_result();
+
+                                    $html = "";
+                                    while ($aula = $exe->fetch_assoc()) {
+                                        $html .= '<option value="' . $aula['aulacod'] . '">' . $aula['aulanom'] . '</option>';
+                                    };
+
+                                    echo $html;
+
+                                    $exe->free_result();
+                                    $sql->close();
+                                    ?>
+                                </select>
+                            </div>
+                            <div>
+                                <label for="turno4">Turno: </label>
+                                <select name="turno4" id="turno4">
+                                    <option value="">Seleccione una opción</option>
+                                    <option value="MAÑANA">Mañana</option>
+                                    <option value="TARDE">Tarde</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label for="grupo4">Grupo: </label>
+                                <select name="grupo4" id="grupo4">
+                                    <option value="">Seleccione una opción</option>
+                                    <option value="MATERNAL">Maternal</option>
+                                    <option value="A">Grupo A</option>
+                                    <option value="B">Grupo B</option>
+                                    <option value="C">Grupo C</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="profes">
+                            <div id="profes41">
+                                <label for="docentes41">Docentes del nivel: </label>
+                                <select name="docentes41" id="docentes41">
+                                    <option value="">Seleccione una opción</option>
+
+                                    <?php
+                                    $sql = $conexion->prepare('SELECT p.persci, p.persnom1, p.persapel1 FROM abpers AS p INNER JOIN abuser AS u ON u.persci = p.persci WHERE p.perscatg = "PERSONAL" AND u.usersecure = 3;');
+                                    $sql->execute();
+                                    $exe = $sql->get_result();
+
+                                    $html = "";
+                                    while ($profe = $exe->fetch_assoc()) {
+                                        $html .= '<option value="' . htmlspecialchars($profe['persci']) . '">' . htmlspecialchars($profe['persnom1']) . ' ' . htmlspecialchars($profe['persapel1']) . '</option>';
+                                    };
+
+                                    echo $html;
+
+                                    $exe->free_result();
+                                    $sql->close();
+                                    ?>
+                                </select>
+                            </div>
+                            <div id="profes42">
+                                <label for="docentes42">Docentes del nivel: </label>
+                                <select name="docentes42" id="docentes42">
+                                    <option value="">Seleccione una opción</option>
+
+                                    <?php
+                                    $sql = $conexion->prepare('SELECT p.persci, p.persnom1, p.persapel1 FROM abpers AS p INNER JOIN abuser AS u ON u.persci = p.persci WHERE p.perscatg = "PERSONAL" AND u.usersecure = 3;');
+                                    $sql->execute();
+                                    $exe = $sql->get_result();
+
+                                    $html = "";
+                                    while ($profe = $exe->fetch_assoc()) {
+                                        $html .= '<option value="' . htmlspecialchars($profe['persci']) . '">' . htmlspecialchars($profe['persnom1']) . ' ' . htmlspecialchars($profe['persapel1']) . '</option>';
+                                    };
+
+                                    echo $html;
+
+                                    $exe->free_result();
+                                    $sql->close();
+                                    ?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="botones2">
+                            <h2>Agregar Docentes</h2>
+                            <button id="prof-btn41" class="mas" type="button" onclick="Aumentar_Profesores(4);">+</button>
+                            <button id="prof-btn42" class="menos" type="button" onclick="Quitar_Profesores(4);">-</button>
+                        </div>
+                    </div>
+
+
+                    <div class="botones1">
+                        <h2>Agregar Clases</h2>
+                        <button id="class-btn1" class="mas" type="button" onclick="Aumentar_Planes(2);">+</button>
+                        <button id="class-btn2" class="mas" type="button" onclick="Aumentar_Planes(3);">+</button>
+                        <button id="class-btn3" class="menos" type="button" onclick="Quitar_Planes(1);">-</button>
+                        <button id="class-btn4" class="mas" type="button" onclick="Aumentar_Planes(4);">+</button>
+                        <button id="class-btn5" class="menos" type="button" onclick="Quitar_Planes(2);">-</button>
+                        <button id="class-btn6" class="menos" type="button" onclick="Quitar_Planes(3);">-</button>
+                    </div>
+
+                    <input type="submit" value="Registrar docentes/aulas" name="plan-btn">
+                </form>
+            </section>
+        <?php endif; ?>
+
+        <?php if ($bandera): ?>
             <section id="cronograma">
                 <h1>CRONOGRAMA DE ACTIVIDADES <?php echo $añoescolar; ?></h1>
                 <form action="./php/procesar_actividades.php" method="post">

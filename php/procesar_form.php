@@ -13,6 +13,7 @@ if (!empty($_POST['registro'])) {
     list($year, $mes, $dia) = explode('-', $fecha);
 
     if (checkdate($mes, $dia, $year)) {
+        date_default_timezone_set('America/Caracas');
         $hoy = date('Y');
         $lim1 = $hoy - 100;
         $lim2 = $hoy - 18;

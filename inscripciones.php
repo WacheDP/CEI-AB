@@ -37,6 +37,7 @@ if (empty($_SESSION['usuario'])) {
     <?php
     require "./php/conexion.php";
 
+    date_default_timezone_set('America/Caracas');
     $hoy = date("Y-m-d");
     $sql = $conexion->prepare('SELECT añoescfin, añoesccod FROM abañoesc WHERE ? BETWEEN añoescini AND añoescfin;');
     $sql->bind_param("s", $hoy);
@@ -63,7 +64,7 @@ if (empty($_SESSION['usuario'])) {
         $grupo = "C";
     };
 
-    $sql = $conexion->prepare('SELECT a.aulanom, m.matcod, m.matturn, m.matgruop, m.matseccion FROM abaula AS a, abmat AS m WHERE m.matgruop = ? AND a.aulacod = m.aulacod;');
+    $sql = $conexion->prepare('SELECT a.aulanom, m.matcod, m.matturn, m.matgroup, m.matseccion FROM abaula AS a, abmat AS m WHERE m.matgroup = ? AND a.aulacod = m.aulacod;');
     $sql->bind_param("s", $grupo);
     $sql->execute();
     $clases = $sql->get_result();
@@ -92,7 +93,7 @@ if (empty($_SESSION['usuario'])) {
                     <div class="info-class">
                         <h1>Información</h1>
                         <p>Aula: <?php echo $clase['aulanom']; ?></p>
-                        <p>Grupo: <?php echo $clase['matgruop']; ?></p>
+                        <p>Grupo: <?php echo $clase['matgroup']; ?></p>
                         <p>Sección: <?php echo $clase['matseccion']; ?></p>
                         <p>Turno: <?php echo $clase['matturn']; ?></p>
                     </div>

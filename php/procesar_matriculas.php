@@ -3,7 +3,7 @@ require "./conexion.php";
 
 if (!empty($_POST['plan-btn'])) {
 
-    $hoy=date("Y-m-d");
+    $hoy = date("Y-m-d");
     $sql = $conexion->prepare('SELECT añoesccod FROM abañoesc WHERE ? BETWEEN añoescini AND añoescfin');
     $sql->bind_param("s", $hoy);
     $sql->execute();
@@ -54,11 +54,26 @@ if (!empty($_POST['plan-btn'])) {
         $matricula4['docente2']
     ];
 
-    for ($i = 0; $i < count($nombres); $i++) {
-        for ($j = $i + 1; $j < count($nombres); $j++) {
-            if ($nombres[$i] == $nombres[$j] && $nombres[$i] != "") {
+    for ($i = 0; $i < 8; $i++) {
+        if (!empty($nombres[$i])) {
+            $sql = $conexion->prepare('SELECT d.persoci FROM abmat AS m, detmatperso AS d WHERE m.añoesccod = ? AND d.matcod = m.matcod AND d.persoci = ?;');
+            $sql->bind_param("ss", $codigo['añoesccod'], $nombres[$i]);
+            $sql->execute();
+            $exe = $sql->get_result()->num_rows;
+            $sql->close();
+
+            if ($exe != 0) {
                 $bandera = true;
                 break;
+            };
+
+            for ($j = $i + 1; $j < 8; $j++) {
+                if (!empty($nombres[$j])) {
+                    if ($nombres[$i] == $nombres[$j]) {
+                        $bandera = true;
+                        break;
+                    };
+                };
             };
         };
     };
@@ -71,7 +86,7 @@ if (!empty($_POST['plan-btn'])) {
 
         if (!empty($matricula1['docente1']) || !empty($matricula1['docente2'])) {
 
-            $sql = $conexion->prepare('SELECT matcod FROM abmat where matseccion = "A" AND aulacod = ? AND matturn = ? AND matgruop = ? AND añoesccod = ?;');
+            $sql = $conexion->prepare('SELECT matcod FROM abmat where matseccion = "A" AND aulacod = ? AND matturn = ? AND matgroup = ? AND añoesccod = ?;');
             $sql->bind_param("ssss", $matricula1['aula'], $matricula1['turno'], $matricula1['grupo'], $codigo['añoesccod']);
             $sql->execute();
             $numero = $sql->get_result()->num_rows;
@@ -82,13 +97,13 @@ if (!empty($_POST['plan-btn'])) {
                 echo '<script> alert("Uno de los salones ya estaba registrado..."); window.location.href = "../planificacion.php"; </script>';
                 exit();
             } else {
-                $sql = $conexion->prepare('INSERT INTO abmat(matcod, aulacod, matturn, matgruop, añoesccod) VALUES (REPLACE(UUID(), "-", ""), ?, ?, ?, ?)');
+                $sql = $conexion->prepare('INSERT INTO abmat(matcod, aulacod, matturn, matgroup, añoesccod) VALUES (REPLACE(UUID(), "-", ""), ?, ?, ?, ?)');
                 $sql->bind_param("ssss", $matricula1['aula'], $matricula1['turno'], $matricula1['grupo'], $codigo['añoesccod']);
                 $sql->execute();
                 $sql->close();
 
                 if (!empty($matricula1['docente1'])) {
-                    $sql = $conexion->prepare('SELECT matcod FROM abmat where matseccion = "A" AND aulacod = ? AND matturn = ? AND matgruop = ? AND añoesccod = ?;');
+                    $sql = $conexion->prepare('SELECT matcod FROM abmat where matseccion = "A" AND aulacod = ? AND matturn = ? AND matgroup = ? AND añoesccod = ?;');
                     $sql->bind_param("ssss", $matricula1['aula'], $matricula1['turno'], $matricula1['grupo'], $codigo['añoesccod']);
                     $sql->execute();
                     $clase = $sql->get_result()->fetch_assoc();
@@ -101,7 +116,7 @@ if (!empty($_POST['plan-btn'])) {
                 };
 
                 if (!empty($matricula1['docente2'])) {
-                    $sql = $conexion->prepare('SELECT matcod FROM abmat where matseccion = "A" AND aulacod = ? AND matturn = ? AND matgruop = ? AND añoescañoesccod = ?;');
+                    $sql = $conexion->prepare('SELECT matcod FROM abmat where matseccion = "A" AND aulacod = ? AND matturn = ? AND matgroup = ? AND añoescañoesccod = ?;');
                     $sql->bind_param("ssss", $matricula1['aula'], $matricula1['turno'], $matricula1['grupo'], $codigo['añoesccod']);
                     $sql->execute();
                     $clase = $sql->get_result()->fetch_assoc();
@@ -116,7 +131,7 @@ if (!empty($_POST['plan-btn'])) {
         };
 
         if (!empty($matricula2['docente1']) || !empty($matricula2['docente2'])) {
-            $sql = $conexion->prepare('SELECT matcod FROM abmat where matseccion = "A" AND aulacod = ? AND matturn = ? AND matgruop = ? AND añoescañoesccod = ?;');
+            $sql = $conexion->prepare('SELECT matcod FROM abmat where matseccion = "A" AND aulacod = ? AND matturn = ? AND matgroup = ? AND añoescañoesccod = ?;');
             $sql->bind_param("ssss", $matricula2['aula'], $matricula2['turno'], $matricula2['grupo'], $codigo['añoesccod']);
             $sql->execute();
             $numero = $sql->get_result()->num_rows;
@@ -127,13 +142,13 @@ if (!empty($_POST['plan-btn'])) {
                 echo '<script> alert("Uno de los salones ya estaba registrado..."); window.location.href = "../registro.php"; </script>';
                 exit();
             } else {
-                $sql = $conexion->prepare('INSERT INTO abmat(matcod, aulacod, matturn, matgruop, añoesccod) VALUES (REPLACE(UUID(), "-", ""), ?, ?, ?, ?)');
+                $sql = $conexion->prepare('INSERT INTO abmat(matcod, aulacod, matturn, matgroup, añoesccod) VALUES (REPLACE(UUID(), "-", ""), ?, ?, ?, ?)');
                 $sql->bind_param("ssss", $matricula2['aula'], $matricula2['turno'], $matricula2['grupo'], $codigo['añoesccod']);
                 $sql->execute();
                 $sql->close();
 
                 if (!empty($matricula2['docente1'])) {
-                    $sql = $conexion->prepare('SELECT matcod FROM abmat where matseccion = "A" AND aulacod = ? AND matturn = ? AND matgruop = ? AND añoescañoesccod = ?;');
+                    $sql = $conexion->prepare('SELECT matcod FROM abmat where matseccion = "A" AND aulacod = ? AND matturn = ? AND matgroup = ? AND añoescañoesccod = ?;');
                     $sql->bind_param("ssss", $matricula2['aula'], $matricula2['turno'], $matricula2['grupo'], $codigo['añoesccod']);
                     $sql->execute();
                     $clase = $sql->get_result()->fetch_assoc();
@@ -146,7 +161,7 @@ if (!empty($_POST['plan-btn'])) {
                 };
 
                 if (!empty($matricula2['docente2'])) {
-                    $sql = $conexion->prepare('SELECT matcod FROM abmat where matseccion = "A" AND aulacod = ? AND matturn = ? AND matgruop = ? AND añoescañoesccod = ?;');
+                    $sql = $conexion->prepare('SELECT matcod FROM abmat where matseccion = "A" AND aulacod = ? AND matturn = ? AND matgroup = ? AND añoescañoesccod = ?;');
                     $sql->bind_param("ssss", $matricula2['aula'], $matricula2['turno'], $matricula2['grupo'], $codigo['añoesccod']);
                     $sql->execute();
                     $clase = $sql->get_result()->fetch_assoc();
@@ -161,7 +176,7 @@ if (!empty($_POST['plan-btn'])) {
         };
 
         if (!empty($matricula3['docente1']) || !empty($matricula3['docente2'])) {
-            $sql = $conexion->prepare('SELECT matcod FROM abmat where matseccion = "A" AND aulacod = ? AND matturn = ? AND matgruop = ? AND añoescañoesccod = ?;');
+            $sql = $conexion->prepare('SELECT matcod FROM abmat where matseccion = "A" AND aulacod = ? AND matturn = ? AND matgroup = ? AND añoescañoesccod = ?;');
             $sql->bind_param("ssss", $matricula3['aula'], $matricula3['turno'], $matricula3['grupo'], $codigo['añoesccod']);
             $sql->execute();
             $numero = $sql->get_result()->num_rows;
@@ -172,13 +187,13 @@ if (!empty($_POST['plan-btn'])) {
                 echo '<script> alert("Uno de los salones ya estaba registrado..."); window.location.href = "../registro.php"; </script>';
                 exit();
             } else {
-                $sql = $conexion->prepare('INSERT INTO abmat(matcod, aulacod, matturn, matgruop, añoesccod) VALUES (REPLACE(UUID(), "-", ""), ?, ?, ?, ?)');
+                $sql = $conexion->prepare('INSERT INTO abmat(matcod, aulacod, matturn, matgroup, añoesccod) VALUES (REPLACE(UUID(), "-", ""), ?, ?, ?, ?)');
                 $sql->bind_param("ssss", $matricula3['aula'], $matricula3['turno'], $matricula3['grupo'], $codigo['añoesccod']);
                 $sql->execute();
                 $sql->close();
 
                 if (!empty($matricula3['docente1'])) {
-                    $sql = $conexion->prepare('SELECT matcod FROM abmat where matseccion = "A" AND aulacod = ? AND matturn = ? AND matgruop = ? AND añoescañoesccod = ?;');
+                    $sql = $conexion->prepare('SELECT matcod FROM abmat where matseccion = "A" AND aulacod = ? AND matturn = ? AND matgroup = ? AND añoescañoesccod = ?;');
                     $sql->bind_param("ssss", $matricula3['aula'], $matricula3['turno'], $matricula3['grupo'], $codigo['añoesccod']);
                     $sql->execute();
                     $clase = $sql->get_result()->fetch_assoc();
@@ -191,7 +206,7 @@ if (!empty($_POST['plan-btn'])) {
                 };
 
                 if (!empty($matricula3['docente2'])) {
-                    $sql = $conexion->prepare('SELECT matcod FROM abmat where matseccion = "A" AND aulacod = ? AND matturn = ? AND matgruop = ? AND añoescañoesccod = ?;');
+                    $sql = $conexion->prepare('SELECT matcod FROM abmat where matseccion = "A" AND aulacod = ? AND matturn = ? AND matgroup = ? AND añoescañoesccod = ?;');
                     $sql->bind_param("ssss", $matricula3['aula'], $matricula3['turno'], $matricula3['grupo'], $codigo['añoesccod']);
                     $sql->execute();
                     $clase = $sql->get_result()->fetch_assoc();
@@ -206,7 +221,7 @@ if (!empty($_POST['plan-btn'])) {
         };
 
         if (!empty($matricula4['docente1']) || !empty($matricula4['docente2'])) {
-            $sql = $conexion->prepare('SELECT matcod FROM abmat where matseccion = "A" AND aulacod = ? AND matturn = ? AND matgruop = ? AND añoescañoesccod = ?;');
+            $sql = $conexion->prepare('SELECT matcod FROM abmat where matseccion = "A" AND aulacod = ? AND matturn = ? AND matgroup = ? AND añoescañoesccod = ?;');
             $sql->bind_param("ssss", $matricula4['aula'], $matricula4['turno'], $matricula4['grupo'], $codigo['añoesccod']);
             $sql->execute();
             $numero = $sql->get_result()->num_rows;
@@ -217,13 +232,13 @@ if (!empty($_POST['plan-btn'])) {
                 echo '<script> alert("Uno de los salones ya estaba registrado..."); window.location.href = "../registro.php"; </script>';
                 exit();
             } else {
-                $sql = $conexion->prepare('INSERT INTO abmat(matcod, aulacod, matturn, matgruop, añoesccod) VALUES (REPLACE(UUID(), "-", ""), ?, ?, ?, ?)');
+                $sql = $conexion->prepare('INSERT INTO abmat(matcod, aulacod, matturn, matgroup, añoesccod) VALUES (REPLACE(UUID(), "-", ""), ?, ?, ?, ?)');
                 $sql->bind_param("ssss", $matricula4['aula'], $matricula4['turno'], $matricula4['grupo'], $codigo['añoesccod']);
                 $sql->execute();
                 $sql->close();
 
                 if (!empty($matricula4['docente1'])) {
-                    $sql = $conexion->prepare('SELECT matcod FROM abmat where matseccion = "A" AND aulacod = ? AND matturn = ? AND matgruop = ? AND añoescañoesccod = ?;');
+                    $sql = $conexion->prepare('SELECT matcod FROM abmat where matseccion = "A" AND aulacod = ? AND matturn = ? AND matgroup = ? AND añoescañoesccod = ?;');
                     $sql->bind_param("ssss", $matricula4['aula'], $matricula4['turno'], $matricula4['grupo'], $codigo['añoesccod']);
                     $sql->execute();
                     $clase = $sql->get_result()->fetch_assoc();
@@ -236,7 +251,7 @@ if (!empty($_POST['plan-btn'])) {
                 };
 
                 if (!empty($matricula4['docente2'])) {
-                    $sql = $conexion->prepare('SELECT matcod FROM abmat where matseccion = "A" AND aulacod = ? AND matturn = ? AND matgruop = ? AND añoescañoesccod = ?;');
+                    $sql = $conexion->prepare('SELECT matcod FROM abmat where matseccion = "A" AND aulacod = ? AND matturn = ? AND matgroup = ? AND añoescañoesccod = ?;');
                     $sql->bind_param("ssss", $matricula4['aula'], $matricula4['turno'], $matricula4['grupo'], $codigo['añoesccod']);
                     $sql->execute();
                     $clase = $sql->get_result()->fetch_assoc();

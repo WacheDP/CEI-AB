@@ -21,6 +21,7 @@ if (empty($_SESSION['usuario'])) {
 
     <!-- Estilos -->
     <link rel="stylesheet" href="./estilos/niños.css">
+    <link rel="stylesheet" href="./estilos/niñolist.css">
     <link rel="stylesheet" href="./estilos/cabecera2.css">
     <link rel="stylesheet" href="./estilos/piepagina.css">
 
@@ -34,8 +35,9 @@ if (empty($_SESSION['usuario'])) {
 
     <main>
         <?php
+        date_default_timezone_set('America/Caracas');
         $hoy = date("Y-m-d");
-        $sql = $conexion->prepare('SELECT DISTINCT cronograma.cracact FROM abcalesc AS dia, abcrac AS cronograma WHERE dia.calescdate = ? and dia.calesccod = cronograma.calesccod;');
+        $sql = $conexion->prepare('SELECT cronograma.cracact FROM abcalesc AS dia, abcrac AS cronograma WHERE dia.calescdate = ? and dia.calesccod = cronograma.calesccod;');
         $sql->bind_param("s", $hoy);
         $sql->execute();
         $exe = $sql->get_result();
@@ -271,56 +273,11 @@ if (empty($_SESSION['usuario'])) {
             </section>
         <?php endif; ?>
 
-        <section id="listado">
+        <section id="listado"></section>
 
-<div id="tus-niños"></div>
-
-            <?php
-            /*
-$sql1 = $conexion->prepare('SELECT n.* FROM abniño AS n, abpar as pa, abpers AS pe WHERE pe.persci = ? AND pe.persci = pa.persci AND n.niñociesc = pa.niñociesc');
-            $sql1->bind_param("s", $cedula);
-            $sql1->execute();
-            $exe = $sql1->get_result();
-            $sql1->close();
-
-            $html = "";
-            if ($exe->num_rows != 0) {
-                $html .= '<div id="tus-niños">';
-                $html .= '<h1>Niños Inscritos</h1>';
-                $html .= '<div id="niños">';
-                //Ciclo
-                $html .= '<div class="niño">';
-                $html .= '<img src="./recursos/avatars/STAND.webp" alt="Foto del Niño">'; //Variables
-                $html .= '<h6>Nombre: Dareh Parra</h6>';
-                $html .= '<h6>Sexo: M</h6>';
-                $html .= '<h6>Edad: 2 años y 6 meses</h6>';
-                $html .= '<div>';
-                $html .= '<a href="" class="ver">Ver Información</a>';
-                $html .= '<a href="" class="editar">Editar Datos</a>';
-                $html .= '<a href="" class="borrar">Eliminar</a>';
-                $html .= '</div>';
-                $html .= '</div>';
-                $html .= '<div class="niña">';
-                $html .= '<img src="./recursos/avatars/STAND.webp" alt="Foto del Niño">'; //Variables
-                $html .= '<h6>Nombre: </h6>';
-                $html .= '<h6>Sexo: </h6>';
-                $html .= '<h6>Edad: </h6>';
-                $html .= '<div>';
-                $html .= '<a href="" class="ver">Ver Información</a>';
-                $html .= '<a href="" class="editar">Editar Datos</a>';
-                $html .= '<a href="" class="borrar">Eliminar</a>';
-                $html .= '</div>';
-                $html .= '</div>';
-                $html .= '</div>';
-                $html .= '</div>';
-            };
-
-            echo $html;
-            */
-            ?>
-        </section>
-
-        <!-- <section id="todo"></section> -->
+        <?php if ($nivel >= 8): ?>
+            <section id="todo"></section>
+        <?php endif; ?>
     </main>
 
     <footer><?php require "./php/piepagina.php"; ?></footer>
@@ -328,14 +285,40 @@ $sql1 = $conexion->prepare('SELECT n.* FROM abniño AS n, abpar as pa, abpers AS
     <!-- Javascripts -->
     <?php require "./php/cerrar_conexion.php"; ?>
 
-    <script type="text/javascript">
-        var cedula = <?php echo $cedula; ?>;
+    <script>
+        var cedula = "<?php echo $cedula; ?>";
+        var tuniños = document.getElementById('listado');
+        var niños = document.getElementById("todo");
+
+        Cargar_TusNiños(0, 1);
+        Cargar_TodosNiños(0, 1);
+
+        function Cargar_TusNiños(offset, pos) {
+            var ajax = new XMLHttpRequest();
+            ajax.open("GET", "./php/tusniños.php?cedula=" + encodeURIComponent(cedula) + "&offset=" + encodeURIComponent(offset) + "&pos=" + encodeURIComponent(pos));
+
+            ajax.onload = function() {
+                tuniños.innerHTML = ajax.responseText;
+            };
+
+            ajax.send();
+        };
+
+        function Cargar_TodosNiños(offset, pos) {
+            var ajax = new XMLHttpRequest();
+            ajax.open("GET", "./php/todosniños.php?offset=" + encodeURIComponent(offset) + "&pos=" + encodeURIComponent(pos));
+
+            ajax.onload = function() {
+                niños.innerHTML = ajax.responseText;
+            };
+
+            ajax.send();
+        };
     </script>
 
     <script src="./js/menu2.js"></script>
     <script src="./js/listadinamica.js"></script>
     <script src="./js/checkbox_niños.js"></script>
-    <script src="./js/mosaicos_dinamicos.js"></script>
     <script src="./js/validar_niño.js"></script>
 </body>
 

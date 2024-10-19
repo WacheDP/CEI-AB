@@ -22,6 +22,7 @@ if (!empty($_POST['registro-btn'])) {
     list($year, $mes, $dia) = explode('-', $fecha);
 
     if (checkdate($mes, $dia, $year)) {
+        date_default_timezone_set('America/Caracas');
         $hoy = date('Y');
         $limit = $hoy - 5;
 

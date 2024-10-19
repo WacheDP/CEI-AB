@@ -5,11 +5,11 @@ session_start();
 require "./filtro.php";
 
 if ($_GET['sebo'] == 1) {
-    $codigo = $_GET['codigo'];
+    $materia = $_GET['codigo'];
     $datos = $_SESSION['datos_niños'];
     $expediente = $_SESSION['expedientes_niños'];
 
-    $sql = $conexion->prepare('INSERT INTO abniño(niñociesc, niñonom1, niñonom2, niñonapel1, niñoapel2, niñosex, niñofecnac, niñonacion, niñolugnac, parrcod, niñodir, niñotransp, niñofoto) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
+    $sql = $conexion->prepare('INSERT INTO abniño(niñociesc, niñonom1, niñonom2, niñoapel1, niñoapel2, niñosex, niñofecnac, niñonacion, niñolugnac, parrcod, niñodir, niñotransp, niñofoto) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
     $sql->bind_param(
         "sssssssssssss",
         $datos['cedulaescolar'],
@@ -29,7 +29,7 @@ if ($_GET['sebo'] == 1) {
     $sql->execute();
     $sql->close();
 
-    $sql = $conexion->prepare('INSERT INTO abniñosa(niñosacod, niñociesc, niñosadoc, niñosaalg, niñosafood, niñosamed, niñosaamed, niñosalimt, niñosavuls, niñosarvul, niñosasae, niñosarsae, niñosanhab, niñosatual, niñosadepo, niñosaplay, niñosaobsv) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
+    $sql = $conexion->prepare('INSERT INTO abniñosa VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
     $sql->bind_param(
         "sssisssiisisissss",
         $datos['cedulaescolar'],
@@ -53,12 +53,35 @@ if ($_GET['sebo'] == 1) {
     $sql->execute();
     $sql->close();
 
-    $sql = $conexion->prepare('INSERT INTO abpar(parcod, niñociesc, persci, partype, parvcnñ) VALUES (REPLACE(UUID(), "-", ""), ?, ?, ?, ?)');
+    $sql = $conexion->prepare('INSERT INTO abpar VALUES (REPLACE(UUID(), "-", ""), ?, ?, ?, ?)');
     $sql->bind_param("sssi", $datos['cedulaescolar'], $cedula, $datos['parentezco'], $datos['convivencia']);
     $sql->execute();
     $sql->close();
+
+    $sql = $conexion->prepare('INSERT INTO detmatniño VALUES (REPLACE(UUID(), "-", ""), ?, ?)');
+    $sql->bind_param("ss", $materia, $datos['cedulaescolar']);
+    $sql->execute();
+    $sql->close();
+
+    $sql = $conexion->prepare('SELECT p.niñociesc FROM abpar AS p, abpers AS r WHERE p.persci = r.persci AND r.persci = ?;');
+    $sql->bind_param("s", $cedula);
+    $sql->execute();
+    $exe = $sql->get_result();
+    $sql->close();
+
+    if ($exe->num_rows > 1) {
+        $n = $exe->num_rows - 1;
+        while ($row = $exe->fetch_assoc()) {
+            $sql = $conexion->prepare('UPDATE abniño SET niñoherm = ? WHERE niñociesc = ?;');
+            $sql->bind_param("is", $n, $row['niñociesc']);
+            $sql->execute();
+            $sql->close();
+        };
+    };
+
+    $exe->free_result();
 };
 
 require "./cerrar_conexion.php";
-header("Location: ../sistema.php");
+header("Location: ../niños.php");
 exit();

@@ -53,6 +53,7 @@ if (!empty($_POST['cronograma'])) {
         $_POST['fecha-actividad55']
     ];
 
+    date_default_timezone_set('America/Caracas');
     $hoy = date("Y-m-d");
     $sql = $conexion->prepare('SELECT * FROM abañoesc WHERE ? BETWEEN añoescini AND añoescfin');
     $sql->bind_param("s", $hoy);

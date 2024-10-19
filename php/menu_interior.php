@@ -14,6 +14,15 @@
             if ($nivel > 8) {
                 $html .= '<a href="./planificacion.php">Planificación</a>';
             };
+
+            if ($nivel > 6) {
+                $html .= '<a href="./inventario.php">Inventario</a>';
+            };
+
+            if ($nivel > 2) {
+                $html .= '<a href="./clases.php">Clases</a>';
+            };
+
             echo $html;
             ?>
             <a href="./calendario.php">Calendario</a>
@@ -23,7 +32,7 @@
     </div>
 
     <button id="perfil-btn-o" onclick="Activar();"><img src="<?php echo './recursos/avatars/' . $foto; ?>" alt="Foto de perfil"></button>
-    
+
     <div id="perfil">
         <button id="perfil-btn-f" onclick="Apagar();"><img src="<?php echo './recursos/avatars/' . $foto; ?>" alt="Foto de perfil"></button>
 
