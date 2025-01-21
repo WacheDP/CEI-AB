@@ -1,0 +1,13 @@
+.portada {
+  background-image: url("../images/entredapreescolar.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 700px;
+}
+
+.foto {
+  border: 3px solid transparent;
+  border-radius: 100%;
+  height: auto;
+}

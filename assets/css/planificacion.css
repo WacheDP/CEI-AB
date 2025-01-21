@@ -1,0 +1,47 @@
+* {
+  background-color: rgba(22, 34, 57, 0.95);
+}
+
+#crearañoescolar {
+  height: 700px;
+}
+
+.formulario {
+  border: 4px outset black;
+  border-radius: 10px;
+  padding: 10px 20px;
+}
+
+.boton {
+  margin-left: 45%;
+  margin-bottom: 10px;
+}
+
+.boton,
+.alerta {
+  margin-top: 15px;
+}
+
+.alerta {
+  height: auto;
+  margin-left: 25%;
+  width: 50%;
+}
+
+.label-form {
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 3px;
+  margin-left: 10px;
+  color: black;
+}
+
+.texto-label {
+  font-size: 15px;
+  font-weight: 700;
+  color: black;
+}
+
+.caja-input {
+  margin-bottom: 5px;
+}

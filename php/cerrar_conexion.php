@@ -1,2 +1,0 @@
-<?php
-$conexion->close();

@@ -1,0 +1,24 @@
+.logo img {
+  background-color: gray;
+  border-radius: 10px;
+  margin-bottom: 15px;
+  margin-left: 0;
+  margin-right: 10px;
+  height: 10%;
+  width: 10%;
+}
+
+#perfil {
+  background-color: rgba(22, 34, 57, 0.95);
+  height: auto;
+  left: 100%;
+  position: absolute;
+  top: 5px;
+  width: 30%;
+  transition: left 0.5s ease-in-out;
+}
+
+#perfil em {
+  font-style: normal;
+  color: #f5a425;
+}
