@@ -1,0 +1,16 @@
+.grupos {
+  min-height: 700px;
+}
+
+#turno {
+  width: 30%;
+  display: block;
+  margin: 0 auto 10px auto;
+}
+
+.botones {
+  margin-top: 10px;
+  width: 100%;
+  display: block;
+  justify-content: center;
+}

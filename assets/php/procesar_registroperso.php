@@ -1,6 +1,24 @@
 <?php
 require "./basedatos.php";
 
+function Enviar_Correo($nombre, $cedula, $usuario, $contraseña, $receptor)
+{
+    $emisor = "wacheparra21@gmail.com";
+    $asunto = "Reporte de Creación de Usuario";
+    $header = "From: " . $emisor . "\r\n";
+    $header .= "Reply-to: " . $emisor . "\r\n";
+    $header .= "X-Mailer: PHP/" . phpversion();
+
+    $mensaje = "Reciba saludos cordiales, se ha reportado un registro de sesión dentro de la institución a su nombre, ";
+    $mensaje .= "dicha cuenta tiene los datos de su cedula de identidad C.I." . $cedula;
+    $mensaje .= " y tiene registrado su nombre " . $nombre . " \n\n";
+    $mensaje .= "Para ingresar a la aplicacion solo ingrese a la pagina principal del C.E.I. Andrés Bello, ";
+    $mensaje .= "para iniciar sesion se le hace entrega de sus datos: \n\n";
+    $mensaje .= "Nombre de Usuario: " . $usuario . " \n Contraseña: " . $contraseña;
+
+    mail($receptor, $asunto, $mensaje, $header);
+}
+
 function Crear_Contraseña()
 {
     $caracteres_permitidos = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -21,7 +39,8 @@ if (isset($_POST['btn'])) {
     $telefono2 = $_POST['telf2'];
     $usuario = strtoupper($_POST['usuario']);
     $correo = strtolower($_POST['correo']);
-    $contraseña = password_hash(Crear_Contraseña(), PASSWORD_DEFAULT);
+    $clave = Crear_Contraseña();
+    $contraseña = password_hash($clave, PASSWORD_DEFAULT);
     $nivel = 2;
     $servicio = $_POST['service'];
     $cargo = $_POST['cargo'];
@@ -30,6 +49,7 @@ if (isset($_POST['btn'])) {
     $lugar_nacer = $_POST['lugnac'];
     $parroquia = $_POST['parroquia'];
     $direccion = $_POST['direccion'];
+    $full_name = $nombre1 . " " . $nombre2 . " " . $apellido1 . " " . $apellido2;
 
     $sql = $database->prepare('SELECT p.perscedi FROM tablpers AS p WHERE p.perscedi = ?');
     $sql->bind_param("s", $cedula);
@@ -162,6 +182,8 @@ if (isset($_POST['btn'])) {
     $sql->bind_param("ssss", $cedula, $cedula, $cargo, $servicio);
     $sql->execute();
     $sql->close();
+
+    Enviar_Correo($full_name, $cedula, $usuario, $clave, $correo);
 };
 
 Cerrar_Conexion($database);

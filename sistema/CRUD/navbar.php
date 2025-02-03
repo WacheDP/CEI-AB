@@ -22,7 +22,7 @@ while ($actos = $actividades->fetch_assoc()) {
 
 <header class="main-header clearfix" role="header">
     <div class="logo">
-        <img src="../assets/images/niñoslapiz.png" alt="Logo de los niños">
+        <img src="../../assets/images/niñoslapiz.png" alt="Logo de los niños">
         <a href="./inicio.php"><em>C.E.I.</em> Andrés Bello</a>
     </div>
 
@@ -34,11 +34,11 @@ while ($actos = $actividades->fetch_assoc()) {
             if ($_SESSION['nivelseguridad'] >= 8) {
                 $html .= '<li class="has-submenu"><a href="#">Planificación</a>';
                 $html .= '<ul class="sub-menu">';
-                $html .= '<li><a href="./planificacion.php">Actividades</a></li>';
+                $html .= '<li><a href="../planificacion.php">Actividades</a></li>';
                 $html .= '<li><a href="#">Calendario</a></li>';
 
                 if ($filtro['grupos&secciones']) {
-                    $html .= '<li><a href="./grupos&secciones.php">Grupos</a></li>';
+                    $html .= '<li><a href="../grupos&secciones.php">Grupos</a></li>';
                 }
 
                 $html .= '</ul></li>';
@@ -72,19 +72,6 @@ while ($actos = $actividades->fetch_assoc()) {
                     }
                     echo $html;
                     ?>
-                </ul>
-            </li>
-
-            <li class="has-submenu"><a href="#">Niños</a>
-                <ul class="sub-menu">
-                    <li><a href="#">Todos</a></li>
-                    <li><a href="#">Niños</a></li>
-
-                    <?php if ($filtro['inscripcion']) {
-                        $html = "";
-                        $html .= '<li><a href="./inscripciones.php">Inscribir</a></li>';
-                        echo $html;
-                    } ?>
                 </ul>
             </li>
 

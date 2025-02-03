@@ -548,36 +548,10 @@ section.why-us {
   letter-spacing: 1px;
   cursor: pointer;
   outline: 0;
-  padding-bottom: 30px;
   color: #fff;
   text-decoration: none;
   text-transform: uppercase;
   position: relative;
-}
-
-#tabs ul li a:after {
-  transition: all 0.3s;
-  width: 10px;
-  height: 10px;
-  background-color: #fff;
-  content: "";
-  position: absolute;
-  left: 50%;
-  transform: translate(-50%);
-  bottom: 0;
-}
-
-#tabs ul li a:before {
-  transition: all 0.3s;
-  width: 25px;
-  height: 25px;
-  border: 2px solid transparent;
-  background-color: transparent;
-  content: "";
-  position: absolute;
-  left: 50%;
-  transform: translate(-50%);
-  bottom: -5px;
 }
 
 #tabs ul li span {

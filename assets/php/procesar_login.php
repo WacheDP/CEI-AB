@@ -14,7 +14,7 @@ if (isset($_POST['btn'])) {
     $alerta = "";
     if ($result->num_rows != 1) {
         Cerrar_Conexion($database);
-        $alerta = '<script>alert("El usuario no existe...");window.location.href = "../../home.php";</script>';
+        $alerta = '<script>alert("El usuario no existe...");window.location.href = "../../index.php";</script>';
         echo $alerta;
         exit;
     } else {
@@ -22,7 +22,7 @@ if (isset($_POST['btn'])) {
 
         if ($result['userstat'] != "Habilitado") {
             Cerrar_Conexion($database);
-            $alerta = '<script>alert("El usuario no esta disponible...");window.location.href = "../../home.php";</script>';
+            $alerta = '<script>alert("El usuario no esta disponible...");window.location.href = "../../index.php";</script>';
             echo $alerta;
             exit;
         };
@@ -42,13 +42,13 @@ if (isset($_POST['btn'])) {
             exit;
         } else {
             Cerrar_Conexion($database);
-            $alerta = '<script>alert("La contraseña es incorrecta...");window.location.href = "../../home.php";</script>';
+            $alerta = '<script>alert("La contraseña es incorrecta...");window.location.href = "../../index.php";</script>';
             echo $alerta;
             exit;
         };
     };
 } else {
     Cerrar_Conexion($database);
-    header("Location: ../../home.php");
+    header("Location: ../../index.php");
     exit;
 };

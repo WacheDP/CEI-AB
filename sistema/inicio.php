@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="../assets/css/inicio.css">
     <link rel="stylesheet" href="../assets/css/cabecera2.css">
     <link href="https://fonts.googleapis.com/css?family=Montserrat:100,200,300,400,500,600,700,800,900" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="../assets/bootstrap-5.3.3-dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="../assets/css/fontawesome.css">
     <link rel="stylesheet" href="../assets/css/templatemo-grad-school-ext.css">
     <link rel="stylesheet" href="../assets/css/owl.css">
@@ -24,7 +24,10 @@
 </head>
 
 <body>
-    <?php require "./navbar.php"; ?>
+    <?php
+    require "../assets/php/basedatos.php";
+    require "./navbar.php";
+    ?>
 
     <section class="section main-banner portada" id="top" data-section="section1">
         <div class="video-overlay header-text">
@@ -51,7 +54,7 @@
 
 <!-- Scripts -->
 <?php Cerrar_Conexion($database); ?>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+<script src="../assets/bootstrap-5.3.3-dist/js/bootstrap.bundle.min.js"></script>
 <script src="assets/js/isotope.min.js"></script>
 <script src="assets/js/owl-carousel.js"></script>
 <script src="assets/js/lightbox.js"></script>
