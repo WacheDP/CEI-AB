@@ -1,3 +1,24 @@
 #salones {
   min-height: 700px;
 }
+
+.boton {
+  margin-left: 45%;
+  margin-top: 15px;
+}
+
+.texto {
+  resize: none;
+}
+
+.formulario {
+  background-color: rgba(128, 128, 128, 0.6);
+  border: 5px solid grey;
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.label-input {
+  margin-bottom: 3px;
+  margin-left: 10px;
+}

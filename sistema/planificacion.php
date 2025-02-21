@@ -1,7 +1,15 @@
 <!DOCTYPE html>
 <html lang="es">
 
-<?php require "./validar_sesion.php"; ?>
+<?php
+require "./validar_sesion.php";
+require "./validar_nivel.php";
+
+if (Validar_Nivel("Planificacion")) {
+    header("Location: ./inicio.php");
+    exit;
+};
+?>
 
 <head>
     <meta charset="utf-8">

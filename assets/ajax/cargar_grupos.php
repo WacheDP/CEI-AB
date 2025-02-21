@@ -34,7 +34,7 @@ while ($materia = $grupos->fetch_assoc()) {
     $html .= '<path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z" />';
     $html .= '</svg></a></button></div></div></div>';
 
-    $sql = $database->prepare("SELECT q.perscedi, q.persnom1, q.persape1 FROM detmatpo AS d, tabperso AS p, tablpers AS q WHERE p.perscedi = q.perscedi AND d.persoced = p.persoced AND d.matcodig = ?");
+    $sql = $database->prepare("SELECT q.perscedi, q.persnom1, q.persape1, q.persnaco FROM detmatpo AS d, tabperso AS p, tablpers AS q WHERE p.perscedi = q.perscedi AND d.persoced = p.persoced AND d.matcodig = ?");
     $sql->bind_param("s", $materia['matcodig']);
     $sql->execute();
     $profesores = $sql->get_result();
@@ -47,7 +47,7 @@ while ($materia = $grupos->fetch_assoc()) {
 
     while ($docente = $profesores->fetch_assoc()) {
         $html .= '<li class="list-group-item list-group-item-action list-group-item-secondary">';
-        $html .= $docente['perscedi'] . ' ' . $docente['persnom1'] . ' ' . $docente['persape1'] . '</li>';
+        $html .= $docente['persnaco'] . '-' . $docente['perscedi'] . ' ' . $docente['persnom1'] . ' ' . $docente['persape1'] . '</li>';
     }
 
     $html .= '</ul></div></div></div>';

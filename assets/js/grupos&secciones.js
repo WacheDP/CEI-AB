@@ -5,6 +5,8 @@ let cajaValidar = document.getElementById("validacion");
 let prof1 = document.getElementById("docente1");
 let prof2 = document.getElementById("docente2");
 let prof3 = document.getElementById("docente3");
+let turno2 = document.getElementById("turno2");
+let aulasSelect = document.getElementById("salon");
 
 const selects = [prof1, prof2, prof3];
 
@@ -18,6 +20,8 @@ selects.forEach((input) => {
     );
   });
 });
+
+turno2.addEventListener("change", Cargar_Aulas);
 
 function SeleccionarTurno() {
   Obtener_Grupos(ValorOculto.value, turnoSelect.value);
@@ -46,6 +50,20 @@ function Validar_Profesores(periodo, doc1, doc2, doc3) {
 
   ajax.onload = () => {
     cajaValidar.innerHTML = ajax.responseText;
+  };
+
+  ajax.send(datos);
+}
+
+function Cargar_Aulas() {
+  let datos = `turno=${turno2.value}`;
+  let ajax = new XMLHttpRequest();
+
+  ajax.open("POST", "../assets/ajax/cargar_aulas.php");
+  ajax.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+  ajax.onload = () => {
+    aulasSelect.innerHTML = ajax.responseText;
   };
 
   ajax.send(datos);

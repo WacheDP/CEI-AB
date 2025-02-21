@@ -5,7 +5,9 @@ if ($database->connect_error) {
     die("Conexion fallida: " . $database->connect_error);
 };
 
-function Cerrar_Conexion($database)
-{
-    $database->close();
+if (!function_exists("Cerrar_Conexion")) {
+    function Cerrar_Conexion($database)
+    {
+        $database->close();
+    };
 };

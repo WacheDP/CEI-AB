@@ -1,0 +1,81 @@
+#inscripcion {
+  min-height: 700px;
+}
+
+.formulario {
+  background-color: rgba(128, 128, 128, 0.6);
+  border: 5px solid grey;
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.boton {
+  margin-left: 45%;
+}
+
+.boton,
+.alerta {
+  margin-top: 15px;
+}
+
+.alerta {
+  height: auto;
+  margin-left: 25%;
+  width: 50%;
+}
+
+.label-form {
+  margin-left: 10px;
+}
+
+.check {
+  padding-top: 2%;
+  padding-bottom: 0;
+}
+
+.caja-input {
+  margin-bottom: 10px;
+}
+
+#direccion,
+#alergia_comida,
+#alergia_medicina,
+#limitaciones,
+#convulsiones_razon,
+#sae_razon,
+#turno_alterno,
+#deportes,
+#fin_semana,
+#observacion {
+  height: 80px;
+  resize: none;
+}
+
+.opciones {
+  margin-top: 5px;
+  margin-left: 40px;
+  gap: 15px;
+}
+
+.atenciones {
+  margin-top: 20px;
+  margin-left: 100px;
+  gap: 30px;
+}
+
+.convulsiones,
+.sae {
+  margin-top: 25px;
+  margin-left: 100px;
+  gap: 30px;
+}
+
+.observar {
+  margin-left: 45%;
+}
+
+#turno {
+  width: 30%;
+  display: block;
+  margin: 0 auto 10px auto;
+}

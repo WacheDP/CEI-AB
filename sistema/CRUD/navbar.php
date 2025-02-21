@@ -23,7 +23,7 @@ while ($actos = $actividades->fetch_assoc()) {
 <header class="main-header clearfix" role="header">
     <div class="logo">
         <img src="../../assets/images/niñoslapiz.png" alt="Logo de los niños">
-        <a href="./inicio.php"><em>C.E.I.</em> Andrés Bello</a>
+        <a href="../inicio.php"><em>C.E.I.</em> Andrés Bello</a>
     </div>
 
     <nav id="menu" class="main-nav" role="navigation">
@@ -53,7 +53,7 @@ while ($actos = $actividades->fetch_assoc()) {
             if ($_SESSION['nivelseguridad'] == 3 || $_SESSION['nivelseguridad'] >= 6) {
                 $html .= '<li class="has-submenu"><a href="#">Inventario</a>';
                 $html .= '<ul class="sub-menu">';
-                $html .= '<li><a href="./salones.php">Salones</a></li>';
+                $html .= '<li><a href="../salones.php">Salones</a></li>';
                 $html .= '</ul></li>';
             }
             echo $html;
@@ -68,19 +68,32 @@ while ($actos = $actividades->fetch_assoc()) {
                     <?php
                     $html = "";
                     if ($_SESSION['nivelseguridad'] >= 8) {
-                        $html .= '<li><a href="./registroperso.php">Registrar</a></li>';
+                        $html .= '<li><a href="../registroperso.php">Registrar</a></li>';
                     }
                     echo $html;
                     ?>
                 </ul>
             </li>
 
-            <li><a href="#"><img class="foto" onclick="Abrir_Perfil();" src="<?php echo '../assets/avatars/' . $_SESSION['perfil']; ?>" alt="Foto de Perfil"></a></li>
+            <li class="has-submenu"><a href="#">Niños</a>
+                <ul class="sub-menu">
+                    <li><a href="#">Todos</a></li>
+                    <li><a href="#">Niños</a></li>
+
+                    <?php if ($filtro['inscripcion']) {
+                        $html = "";
+                        $html .= '<li><a href="../inscripciones.php">Inscribir</a></li>';
+                        echo $html;
+                    } ?>
+                </ul>
+            </li>
+
+            <li><a href="#"><img class="foto" onclick="Abrir_Perfil();" src="<?php echo '../../assets/avatars/' . $_SESSION['perfil']; ?>" alt="Foto de Perfil"></a></li>
         </ul>
     </nav>
 
     <div id="perfil" class="card text-white bg-secondary">
-        <img class="card-img-top" onclick="Cerrar_Perfil();" src="<?php echo '../assets/avatars/' . $_SESSION['perfil']; ?>" alt="Foto de Perfil">
+        <img class="card-img-top" onclick="Cerrar_Perfil();" src="<?php echo '../../assets/avatars/' . $_SESSION['perfil']; ?>" alt="Foto de Perfil">
         <div class="card-body text-center">
             <h5 class="card-title"><?php echo 'Usuario <em>' . $_SESSION['usuario'] . '</em>'; ?></h5>
             <ul class="list-group list-group-flush">
@@ -90,9 +103,9 @@ while ($actos = $actividades->fetch_assoc()) {
             </ul>
         </div>
         <div class="card-body">
-            <a href="../assets/php/cerrar_sesion.php" class="card-link">Cerrar Sesión</a>
+            <a href="../../assets/php/cerrar_sesion.php" class="card-link">Cerrar Sesión</a>
         </div>
     </div>
 
-    <script src="../assets/js/menu.js"></script>
+    <script src="../../assets/js/menu.js"></script>
 </header>

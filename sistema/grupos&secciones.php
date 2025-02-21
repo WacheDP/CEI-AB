@@ -1,7 +1,21 @@
 <!DOCTYPE html>
 <html lang="es">
 
-<?php require "./validar_sesion.php"; ?>
+<?php
+require "./validar_sesion.php";
+require "./validar_actividad.php";
+require "./validar_nivel.php";
+
+if (!Validar_Actividad("ORGANIZACIÓN DE GRUPOS Y SECCIONES")) {
+    header("Location: ./inicio.php");
+    exit;
+};
+
+if (Validar_Nivel("Crear y Editar Grupos")) {
+    header("Location: ./inicio.php");
+    exit;
+};
+?>
 
 <head>
     <meta charset="utf-8">
@@ -53,7 +67,7 @@
                             <option value="MAÑANA">Mañana</option>
                             <option value="TARDE">Tarde</option>
                         </select>
-                        <a href=""></a>
+
                         <div id="grupos"></div>
 
                         <form action="../assets/php/organizar_grupos&secciones.php" method="post">
@@ -78,20 +92,6 @@
                                         </select>
                                         <select class="form-select" name="salon" id="salon" required aria-label="Default select example">
                                             <option value="">Selecciona el Salón</option>
-
-                                            <?php
-                                            $sql = $database->prepare('SELECT a.aulacodg, a.aulanomb FROM tablaula AS a, detlaula AS d WHERE a.aulacodg = d.aulacodg AND d.daulastt = "Habilitado" AND a.aulanomb LIKE "Aula%"');
-                                            $sql->execute();
-                                            $salones = $sql->get_result();
-
-                                            $html = "";
-                                            while ($salon = $salones->fetch_assoc()) {
-                                                $html .= '<option value="' . $salon['aulacodg'] . '">' . $salon['aulanomb'] . '</option>';
-                                            }
-                                            echo $html;
-
-                                            $sql->close();
-                                            ?>
                                         </select>
                                         <div id="validacion" class="botones"></div>
                                     </div>
