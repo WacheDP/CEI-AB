@@ -48,7 +48,7 @@ if (!Validar_Actividad("INSCRIPCIONES")) {
                 </div>
 
                 <div class="col-md-12">
-                    <form class="formulario" action="./planillasalud_niños.php" method="post">
+                    <form class="formulario" action="../assets/php/inscripcion_fase1.php" method="post">
                         <input type="hidden" name="cedula-representante" value="<?php echo $_SESSION['cedula']; ?>">
 
                         <div class="row">
@@ -123,6 +123,10 @@ if (!Validar_Actividad("INSCRIPCIONES")) {
                                 <label for="viaje" class="label-form">Medios de Transporte</label>
                                 <input type="text" class="form-control caja-input" id="viaje" name="viaje" placeholder="Vehiculo Propio">
                             </div>
+                            <div class="form-group col-md-6">
+                                <label for="foto" class="label-form">Foto del Niño</label>
+                                <input class="form-control" accept=".png, .jpg, .jpeg, .webp" type="file" id="foto" name="foto" required>
+                            </div>
                         </div>
                         <div id="direcciones">
                             <div class="row">
@@ -179,9 +183,11 @@ if (!Validar_Actividad("INSCRIPCIONES")) {
                             </div>
                         </div>
 
-                        <div id="validacion">
-                            <div class="alert alerta alert-danger" role="alert">La contraseña es incorrecta</div>
-                            <button type="submit" class="btn boton btn-success mb-2" name="btn">Registrar</button>
+                        <div id="validacion_f1">
+                            <div id="validacion">
+                                <div class="alert alerta alert-danger" role="alert">La contraseña es incorrecta</div>
+                                <button type="submit" class="btn boton btn-success mb-2" name="btn">Registrar</button>
+                            </div>
                         </div>
                     </form>
                 </div>

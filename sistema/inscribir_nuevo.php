@@ -4,12 +4,10 @@
 <?php
 require "./validar_sesion.php";
 
-/*
 if (!isset($_POST['cedula-representante']) && !isset($_POST['ced-esc'])) {
     header("Location: ./inscripciones.php");
     exit;
 };
-*/
 ?>
 
 <head>
@@ -56,7 +54,7 @@ if (!isset($_POST['cedula-representante']) && !isset($_POST['ced-esc'])) {
                 </div>
 
                 <div class="col-md-12">
-                    <form class="formulario" action="../assets/php/procesar_inscripcion.php" method="post">
+                    <form class="formulario" id="inscripcion_form" method="post">
                         <input type="hidden" name="cedula_representante" value="<?php echo $_POST['cedula-representante']; ?>">
                         <input type="hidden" name="ced_esc" value="<?php echo $_POST['ced-esc']; ?>">
                         <input type="hidden" name="parentezco" value="<?php echo $_POST['parentezco']; ?>">
@@ -100,7 +98,7 @@ if (!isset($_POST['cedula-representante']) && !isset($_POST['ced-esc'])) {
                         $sql->close();
 
                         $html = "";
-                        while ($grupo = $grupos->fetch_assoc()) {
+                        while ($grupo = $grupos->fetch_assoc()):
                             $html .= '<div id="tabs" class="row">';
                             $html .= '<div class="card text-white bg-secondary mb-3" style="max-width: 18rem; margin-left: 30px;">';
                             $html .= '<div class="card-header">Grupo ' . $grupo['matgrupo'] . '</div>';
@@ -110,8 +108,8 @@ if (!isset($_POST['cedula-representante']) && !isset($_POST['ced-esc'])) {
                             $html .= '<p class="card-text">Año Escolar ' . $grupo['añsccodg'] . '</p>';
                             $html .= '<p class="card-text">Salón: ' . $grupo['aulanomb'] . '</p>';
                             $html .= '<div class="botones">';
-                            $html .= '<button type="submit" class="btn btn-success mb-2" name="btn">';
-                            $html .= 'Inscribir</button></div></div></div>';
+                            $html .= '<a href="../assets/php/procesar_inscripcion.php?codigo_grupo=' . $grupo['matcodig'] . '" class="btn btn-success mb-2" name="btn">Inscribir</a>';
+                            $html .= '</div></div></div>';
 
                             $sql = $database->prepare('SELECT per.perscedi, per.persnom1, per.persape1, per.persnaco FROM detmatpo AS det INNER JOIN tabperso as doc ON det.persoced = doc.persoced INNER JOIN tablpers AS per ON doc.perscedi = per.perscedi WHERE det.matcodig = ?');
                             $sql->bind_param("s", $grupo['matcodig']);
@@ -131,7 +129,7 @@ if (!isset($_POST['cedula-representante']) && !isset($_POST['ced-esc'])) {
                             };
 
                             $html .= '</ul></div></div></div>';
-                        };
+                        endwhile;
 
                         echo $html;
                         ?>
@@ -144,6 +142,7 @@ if (!isset($_POST['cedula-representante']) && !isset($_POST['ced-esc'])) {
 
 <!-- Scripts -->
 <?php Cerrar_Conexion($database); ?>
+<script src="../assets/js/inscripciones.js"></script>
 <script src="../assets/bootstrap-5.3.3-dist/js/bootstrap.bundle.min.js"></script>
 <script src="assets/js/isotope.min.js"></script>
 <script src="assets/js/owl-carousel.js"></script>
