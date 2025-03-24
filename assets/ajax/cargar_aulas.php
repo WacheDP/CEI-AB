@@ -17,7 +17,7 @@ if (!empty($turno)) {
         $html .= '<option value="">No Hay Salones Disponibles</option>';
     } else {
         while ($aula = $aulas->fetch_assoc()) {
-            $html .= '<option value="' . $aula['aulacodg'] . '">' . $aula['aulanomb'] . '</option>';
+            $html .= '<option value="' . htmlspecialchars($aula['aulacodg']) . '">' . htmlspecialchars($aula['aulanomb']) . '</option>';
         };
     };
 };

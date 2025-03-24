@@ -63,17 +63,21 @@ while ($actos = $actividades->fetch_assoc()) {
                 <ul class="sub-menu"></ul>
             </li>
 
-            <li class="has-submenu"><a href="#">Personal</a>
-                <ul class="sub-menu">
-                    <?php
-                    $html = "";
-                    if ($_SESSION['nivelseguridad'] >= 8) {
-                        $html .= '<li><a href="../registroperso.php">Registrar</a></li>';
-                    }
-                    echo $html;
-                    ?>
-                </ul>
-            </li>
+            <?php
+            if ($_SESSION['nivelseguridad'] > 1) {
+                $html = "";
+                $html .= '<li class="has-submenu"><a href="#">Personal</a>';
+                $html .= '<ul class="sub-menu">';
+
+                if ($_SESSION['nivelseguridad'] >= 8) {
+                    $html .= '<li><a href="../registroperso.php">Registrar</a></li>';
+                }
+
+                $html .= '</ul></li>';
+
+                echo $html;
+            };
+            ?>
 
             <li class="has-submenu"><a href="#">Niños</a>
                 <ul class="sub-menu">

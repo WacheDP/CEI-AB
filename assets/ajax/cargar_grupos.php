@@ -11,16 +11,15 @@ $grupos = $sql->get_result();
 $sql->close();
 
 $html = "";
-
 while ($materia = $grupos->fetch_assoc()) {
     $html .= '<div class="row">';
     $html .= '<div class="card text-white bg-secondary mb-3" style="max-width: 18rem; margin-left: 30px;">';
-    $html .= '<div class="card-header">Grupo ' . $materia['matgrupo'] . '</div>';
+    $html .= '<div class="card-header">Grupo ' . htmlspecialchars($materia['matgrupo']) . '</div>';
     $html .= '<div class="card-body text-warning">';
-    $html .= '<h5 class="card-title">Sección ' . $materia['matsecco'] . '</h5>';
-    $html .= '<p class="card-text">Turno ' . $materia['matturno'] . '</p>';
-    $html .= '<p class="card-text">Año Escolar ' . $materia['añsccodg'] . '</p>';
-    $html .= '<p class="card-text">Salón: ' . $materia['aulanomb'] . '</p>';
+    $html .= '<h5 class="card-title">Sección ' . htmlspecialchars($materia['matsecco']) . '</h5>';
+    $html .= '<p class="card-text">Turno ' . htmlspecialchars($materia['matturno']) . '</p>';
+    $html .= '<p class="card-text">Año Escolar ' . htmlspecialchars($materia['añsccodg']) . '</p>';
+    $html .= '<p class="card-text">Salón: ' . htmlspecialchars($materia['aulanomb']) . '</p>';
     $html .= '<div class="botones">';
     $html .= '<button type="button" class="btn btn-dark">';
     $html .= '<a href="./CRUD/grupos&secciones.php">';
@@ -47,12 +46,11 @@ while ($materia = $grupos->fetch_assoc()) {
 
     while ($docente = $profesores->fetch_assoc()) {
         $html .= '<li class="list-group-item list-group-item-action list-group-item-secondary">';
-        $html .= $docente['persnaco'] . '-' . $docente['perscedi'] . ' ' . $docente['persnom1'] . ' ' . $docente['persape1'] . '</li>';
+        $html .= htmlspecialchars($docente['persnaco']) . '-' . htmlspecialchars($docente['perscedi']) . ' ' . htmlspecialchars($docente['persnom1']) . ' ' . htmlspecialchars($docente['persape1']) . '</li>';
     }
 
     $html .= '</ul></div></div></div>';
 }
 
-echo $html;
-
 Cerrar_Conexion($database);
+echo $html;

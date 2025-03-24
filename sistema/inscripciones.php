@@ -19,8 +19,8 @@ if (!Validar_Actividad("INSCRIPCIONES")) {
     <link rel="shortcut icon" href="../assets/lapiz.png" type="image/x-icon">
 
     <!-- Estilos -->
-    <link rel="stylesheet" href="../assets/css/inicio.css">
     <link rel="stylesheet" href="../assets/css/inscripciones.css">
+    <link rel="stylesheet" href="../assets/css/inicio.css">
     <link rel="stylesheet" href="../assets/css/cabecera2.css">
     <link href="https://fonts.googleapis.com/css?family=Montserrat:100,200,300,400,500,600,700,800,900" rel="stylesheet">
     <link rel="stylesheet" href="../assets/bootstrap-5.3.3-dist/css/bootstrap.min.css">
@@ -36,160 +36,93 @@ if (!Validar_Actividad("INSCRIPCIONES")) {
     <?php
     require "../assets/php/basedatos.php";
     require "./navbar.php";
+
+    if (isset($_GET['niño'])) {
+        $sql = $database->prepare('SELECT n.nñcedesc FROM tablniño AS n WHERE n.nñcedesc = ?');
+        $sql->bind_param("s", $_GET['niño']);
+        $sql->execute();
+        $validacion = $sql->get_result()->num_rows;
+        $sql->close();
+
+        if ($validacion != 1) {
+            header("Location: ./inicio.php");
+            exit;
+        };
+    } else {
+        header("Location: ./inicio.php");
+        exit;
+    };
+
+    date_default_timezone_set("America/Caracas");
+    $hoy = date("Y-m-d");
+    $sql = $database->prepare("SELECT ae.añsccodg FROM tbañoesc AS ae WHERE ? BETWEEN ae.añscfini AND ae.añscffin");
+    $sql->bind_param("s", $hoy);
+    $sql->execute();
+    $añoescolar = $sql->get_result()->fetch_assoc();
+    $sql->close();
     ?>
 
-    <section id="inscripcion" class="section why-us">
+    <section id="inscripcion" class="section why-us" data-section="section2">
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
                     <div class="section-heading">
-                        <h2>Inscribir un Nuevo Niño</h2>
+                        <h2><?php echo "Inscripciones " . $añoescolar['añsccodg']; ?></h2>
                     </div>
                 </div>
 
                 <div class="col-md-12">
-                    <form class="formulario" action="../assets/php/inscripcion_fase1.php" method="post">
-                        <input type="hidden" name="cedula-representante" value="<?php echo $_SESSION['cedula']; ?>">
+                    <div id='tabs'>
+                        <input type="hidden" name="niño" id="niño" value="<?php echo $_GET['niño']; ?>">
 
-                        <div class="row">
-                            <div class="form-group col-md-3">
-                                <label for="ced-esc" class="label-form">Cedula Escolar</label>
-                                <input type="text" class="form-control caja-input" id="ced-esc" name="ced-esc" placeholder="XXXXXXXXXXXX" required>
-                            </div>
-                            <div class="form-group col-md-3">
-                                <label for="parentezco" class="label-form">Parentezco</label>
-                                <select class="form-select caja-input" id="parentezco" name="parentezco" aria-label="Default select example" required>
-                                    <option value="">Seleccione el parentezco</option>
-                                    <option value="MADRE">Madre del Niño</option>
-                                    <option value="PADRE">Padre del Niño</option>
-                                    <option value="REPRESENTANTE">Representante Legal</option>
-                                </select>
-                            </div>
-                            <div class="form-group col-md-3">
-                                <label for="sexo" class="label-form">Genero</label>
-                                <select class="form-select caja-input" id="sexo" name="sexo" aria-label="Default select example" required>
-                                    <option value="">Seleccione un genero</option>
-                                    <option value="V">Niño</option>
-                                    <option value="H">Niña</option>
-                                </select>
-                            </div>
-                            <div class="form-group check col-md-3">
-                                <div class="form-check">
-                                    <input class="form-check-input caja-input" type="checkbox" id="convive" name="convive">
-                                    <label class="form-check-label" for="convive">
-                                        ¿Vive usted con el niño o niña?
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="form-group col-md-3">
-                                <label for="nom1" class="label-form">Primer Nombre</label>
-                                <input type="text" class="form-control caja-input" id="nom1" name="nom1" placeholder="Pedro" required>
-                            </div>
-                            <div class="form-group col-md-3">
-                                <label for="nom2" class="label-form">Segundo Nombre</label>
-                                <input type="text" class="form-control caja-input" id="nom2" name="nom2" placeholder="Antonio">
-                            </div>
-                            <div class="form-group col-md-3">
-                                <label for="ape1" class="label-form">Primer Apellido</label>
-                                <input type="text" class="form-control caja-input" id="ape1" name="ape1" placeholder="Peréz" required>
-                            </div>
-                            <div class="form-group col-md-3">
-                                <label for="ape2" class="label-form">Segundo Apellido</label>
-                                <input type="text" class="form-control caja-input" id="ape2" name="ape2" placeholder="Juanéz">
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="form-group col-md-4">
-                                <label for="fecnac" class="label-form">Fecha de Nacimiento</label>
-                                <input type="date" class="form-control caja-input" id="fecnac" name="fecnac" required>
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label for="nacionalidad" class="label-form">Nacionalidad</label>
-                                <select class="form-select caja-input" id="nacionalidad" name="nacionalidad" aria-label="Default select example" required>
-                                    <option value="">Seleccione la nacionalidad</option>
-                                    <option value="V">Venezolano</option>
-                                    <option value="E">Extranjero</option>
-                                </select>
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label for="lugnac" class="label-form">Lugar de Nacimiento</label>
-                                <input type="text" class="form-control caja-input" id="lugnac" name="lugnac" placeholder="San Cristóbal, Estado Táchira">
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="form-group col-md-5">
-                                <label for="viaje" class="label-form">Medios de Transporte</label>
-                                <input type="text" class="form-control caja-input" id="viaje" name="viaje" placeholder="Vehiculo Propio">
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label for="foto" class="label-form">Foto del Niño</label>
-                                <input class="form-control" accept=".png, .jpg, .jpeg, .webp" type="file" id="foto" name="foto" required>
-                            </div>
-                        </div>
-                        <div id="direcciones">
-                            <div class="row">
-                                <div class="form-group col-md-4">
-                                    <label for="pais" class="label-form">Pais</label>
-                                    <select class="form-select caja-input" onchange="Cargar_Estados()" id="pais" name="pais" aria-label="Default select example" required>
-                                        <option value="">Seleccione el pais</option>
+                        <?php
+                        $cadena = "";
+                        $cadena .= 'SELECT m.matcodig, a.aulanomb, m.matgrupo, m.matsecco, m.matturno, m.añsccodg ';
+                        $cadena .= 'FROM tablamat AS m INNER JOIN tablaula AS a ON m.aulacodg = a.aulacodg ';
+                        $cadena .= 'WHERE m.añsccodg = ? ORDER BY m.matturno DESC;';
 
-                                        <?php
-                                        $sql = $database->prepare('SELECT * FROM tablpais');
-                                        $sql->execute();
-                                        $paises = $sql->get_result();
-                                        $sql->close();
+                        $sql = $database->prepare($cadena);
+                        $sql->bind_param("s", $añoescolar['añsccodg']);
+                        $sql->execute();
+                        $grupos = $sql->get_result();
+                        $sql->close();
 
-                                        $html = "";
-                                        while ($pais = $paises->fetch_assoc()) {
-                                            $html .= '<option value="' . $pais['paiscodg'] . '">' . $pais['paisnomb'] . '</option>';
-                                        };
+                        $html = "";
+                        while ($materia = $grupos->fetch_assoc()) {
+                            $html .= '<div class="row">';
+                            $html .= '<div class="card text-white bg-secondary mb-3" style="max-width: 18rem; margin-left: 30px;">';
+                            $html .= '<div class="card-header">Grupo ' . $materia['matgrupo'] . '</div>';
+                            $html .= '<div class="card-body text-warning">';
+                            $html .= '<h5 class="card-title">Sección ' . $materia['matsecco'] . '</h5>';
+                            $html .= '<p class="card-text">Turno ' . $materia['matturno'] . '</p>';
+                            $html .= '<p class="card-text">Año Escolar ' . $materia['añsccodg'] . '</p>';
+                            $html .= '<p class="card-text">Salón: ' . $materia['aulanomb'] . '</p>';
+                            $html .= '<div class="botones">';
+                            $html .= '<button type="button" onclick="Inscribirse(\'' . $materia['matcodig'] . '\', \'' . $materia['matgrupo'] . '\', \'' . $materia['matsecco'] . '\', \'' . $materia['matturno'] . '\');" class="btn btn-success">Inscribir</button>';
+                            $html .= '</div></div></div>';
 
-                                        echo $html;
-                                        ?>
-                                    </select>
-                                </div>
-                                <div class="form-group col-md-4">
-                                    <label for="estado" class="label-form">Estado</label>
-                                    <select class="form-select caja-input" id="estado" onchange="Cargar_Municipios()" name="estado" aria-label="Default select example" required>
-                                        <option value="">Seleccione el estado</option>
-                                    </select>
-                                </div>
-                                <div class="form-group col-md-4">
-                                    <label for="municipio" class="label-form">Municipio</label>
-                                    <select class="form-select caja-input" id="municipio" onchange="Cargar_Ciudades()" name="municipio" aria-label="Default select example" required>
-                                        <option value="">Seleccione el municipio</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="form-group col-md-4">
-                                    <label for="ciudad" class="label-form">Ciudad</label>
-                                    <select class="form-select caja-input" onchange="Cargar_Parroquias()" id="ciudad" name="ciudad" aria-label="Default select example" required>
-                                        <option value="">Seleccione la ciudad</option>
-                                    </select>
-                                </div>
-                                <div class="form-group col-md-4">
-                                    <label for="parroquia" class="label-form">Parroquia</label>
-                                    <select class="form-select caja-input" id="parroquia" name="parroquia" aria-label="Default select example" required>
-                                        <option value="">Seleccione la parroquia</option>
-                                    </select>
-                                </div>
-                                <div class="form-group col-md-4">
-                                    <label for="direccion" class="label-form">Dirección</label>
-                                    <textarea class="form-control caja-input" id="direccion" name="direccion" rows="3" required></textarea>
-                                </div>
-                            </div>
-                        </div>
+                            $sql = $database->prepare("SELECT q.perscedi, q.persnom1, q.persape1, q.persnaco FROM detmatpo AS d, tabperso AS p, tablpers AS q WHERE p.perscedi = q.perscedi AND d.persoced = p.persoced AND d.matcodig = ?");
+                            $sql->bind_param("s", $materia['matcodig']);
+                            $sql->execute();
+                            $profesores = $sql->get_result();
+                            $sql->close();
 
-                        <div id="validacion_f1">
-                            <div id="validacion">
-                                <div class="alert alerta alert-danger" role="alert">La contraseña es incorrecta</div>
-                                <button type="submit" class="btn boton btn-success mb-2" name="btn">Registrar</button>
-                            </div>
-                        </div>
-                    </form>
+                            $html .= '<div class="card text-white bg-secondary mb-3" style="max-width: 70%; margin-left: 20px;">';
+                            $html .= '<div class="card-header">Docentes</div>';
+                            $html .= '<div class="card-body">';
+                            $html .= '<ul class="list-group list-group-flush">';
+
+                            while ($docente = $profesores->fetch_assoc()) {
+                                $html .= '<li class="list-group-item list-group-item-action list-group-item-secondary">';
+                                $html .= $docente['persnaco'] . '-' . $docente['perscedi'] . ' ' . $docente['persnom1'] . ' ' . $docente['persape1'] . '</li>';
+                            }
+
+                            $html .= '</ul></div></div></div>';
+                        }
+
+                        echo $html;
+                        ?>
+                    </div>
                 </div>
             </div>
         </div>

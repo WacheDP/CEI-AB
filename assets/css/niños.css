@@ -1,0 +1,42 @@
+.deck {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+.carta {
+  width: 20%;
+  height: auto;
+}
+
+.rosa {
+  background-color: rgba(255, 192, 203, 1) !important;
+}
+
+.busqueda {
+  display: flex;
+  background-color: grey;
+  padding: 10px;
+  border-radius: 10px;
+  gap: 10px;
+  border: 2px solid black;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+#tus_niños {
+  min-height: 800px;
+}
+
+#planilla {
+  background-color: rgba(128, 128, 128, 0.6);
+  border: 5px solid grey;
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.foto_perfil {}
+
+#info {
+  display: flex;
+}

@@ -12,7 +12,7 @@ $sql->close();
 $html = "";
 $html .= '<option value="">Seleccione el estado</option>';
 while ($estado = $estados->fetch_assoc()) {
-    $html .= '<option value="' . $estado['estdcodg'] . '">' . $estado['estdnomb'] . '</option>';
+    $html .= '<option value="' . htmlspecialchars($estado['estdcodg']) . '">' . htmlspecialchars($estado['estdnomb']) . '</option>';
 };
 
 $respuesta = [

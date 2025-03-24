@@ -1,11 +1,3 @@
-
-
-    
-    
-    
-    
-
-
 <?php
 require "../php/basedatos.php";
 

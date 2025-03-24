@@ -17,5 +17,13 @@ function Validar_Nivel($seccion)
                 return false;
             };
             break;
+
+        case "Todos los niños":
+            if ($_SESSION['nivelseguridad'] < 8) {
+                return true;
+            } else {
+                return false;
+            };
+            break;
     };
 };

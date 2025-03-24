@@ -10,10 +10,6 @@ $actividades = $sql->get_result();
 $sql->close();
 
 while ($actos = $actividades->fetch_assoc()) {
-    if ($actos['crctacto'] == "INSCRIPCIONES") {
-        $filtro['inscripcion'] = true;
-    };
-
     if ($actos['crctacto'] == "ORGANIZACIÓN DE GRUPOS Y SECCIONES") {
         $filtro['grupos&secciones'] = true;
     };
@@ -34,6 +30,7 @@ while ($actos = $actividades->fetch_assoc()) {
             if ($_SESSION['nivelseguridad'] >= 8) {
                 $html .= '<li class="has-submenu"><a href="#">Planificación</a>';
                 $html .= '<ul class="sub-menu">';
+
                 $html .= '<li><a href="./planificacion.php">Actividades</a></li>';
                 $html .= '<li><a href="#">Calendario</a></li>';
 
@@ -48,43 +45,44 @@ while ($actos = $actividades->fetch_assoc()) {
             echo $html;
             ?>
 
-            <?php
-            $html = "";
-            if ($_SESSION['nivelseguridad'] == 3 || $_SESSION['nivelseguridad'] >= 6) {
-                $html .= '<li class="has-submenu"><a href="#">Inventario</a>';
-                $html .= '<ul class="sub-menu">';
-                $html .= '<li><a href="./salones.php">Salones</a></li>';
-                $html .= '</ul></li>';
-            }
-            echo $html;
-            ?>
+            <li class="has-submenu"><a href="#">Inventario</a>
+                <ul class="sub-menu">
+                    <li><a href="./salones.php">Salones</a></li>
+                </ul>
+            </li>
 
             <li class="has-submenu"><a href="#">Clases</a>
                 <ul class="sub-menu"></ul>
             </li>
 
-            <li class="has-submenu"><a href="#">Personal</a>
+            <?php
+            if ($_SESSION['nivelseguridad'] > 1) {
+                $html = "";
+                $html .= '<li class="has-submenu"><a href="#">Personal</a>';
+                $html .= '<ul class="sub-menu">';
+
+                if ($_SESSION['nivelseguridad'] >= 8) {
+                    $html .= '<li><a href="./registroperso.php">Contratar</a></li>';
+                }
+
+                $html .= '</ul></li>';
+
+                echo $html;
+            };
+            ?>
+
+            <li class="has-submenu"><a href="#">Niños</a>
                 <ul class="sub-menu">
                     <?php
                     $html = "";
                     if ($_SESSION['nivelseguridad'] >= 8) {
-                        $html .= '<li><a href="./registroperso.php">Registrar</a></li>';
-                    }
+                        $html .= '<li><a href="./todos_niños.php">Todos</a></li>';
+                    };
                     echo $html;
                     ?>
-                </ul>
-            </li>
 
-            <li class="has-submenu"><a href="#">Niños</a>
-                <ul class="sub-menu">
-                    <li><a href="#">Todos</a></li>
-                    <li><a href="#">Niños</a></li>
-
-                    <?php if ($filtro['inscripcion']) {
-                        $html = "";
-                        $html .= '<li><a href="./inscripciones.php">Inscribir</a></li>';
-                        echo $html;
-                    } ?>
+                    <li><a href="./tus_niños.php">Niños</a></li>
+                    <li><a href="./registroniño.php">Registrar</a></li>
                 </ul>
             </li>
 
